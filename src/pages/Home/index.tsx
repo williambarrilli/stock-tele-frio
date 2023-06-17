@@ -3,6 +3,7 @@ import './styles.css'; // Arquivo CSS para estilização da tabela
 import { iProduct } from '../../types/product';
 import TableComponent from '../../components/Table';
 import Button from '@mui/material/Button';
+import Header from '../../components/Header';
 
 const listaProducts: iProduct[] = [
   {
@@ -143,7 +144,7 @@ export default function Home() {
 
   return (
     <div>
-      Header | Logo
+      <Header />
       <TableComponent lista={listaProducts} />
       <Button variant="contained" onClick={() => setOpenModalNewProduct(true)}>
         Adicionar Produto
