@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "stock-tele-frio",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -39,5 +39,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.8"
   }
 }
