@@ -142,7 +142,6 @@ const listaProducts: iProduct[] = [
 
 export default function Home() {
   const [openModalNewProduct, setOpenModalNewProduct] = useState(false);
-  const [sellProduct, setSellProduct] = useState(false);
 
   return (
     <div>
@@ -154,13 +153,6 @@ export default function Home() {
           onClick={() => setOpenModalNewProduct(true)}
         >
           Adicionar Produto
-        </Button>
-        <Button
-          variant="contained"
-          color="success"
-          onClick={() => setSellProduct(true)}
-        >
-          Vender Produto
         </Button>
       </div>
       <ModalComponent isOpen={openModalNewProduct}>

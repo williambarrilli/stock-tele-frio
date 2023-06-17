@@ -20,6 +20,7 @@ export default function InputComponent({
   return (
     <div className={styles.caontainer}>
       <TextField
+        fullWidth
         id={label}
         label={label}
         value={value}

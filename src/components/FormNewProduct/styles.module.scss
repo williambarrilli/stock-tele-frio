@@ -1,10 +1,14 @@
 .container {
+  width: 70vw;
+  height: 90vh;
+  overflow: auto;
 }
 
 .grid-container {
   display: grid;
   grid-template-columns: auto auto;
 }
+
 .grid-item {
   padding: 20px;
   font-size: 30px;
@@ -21,4 +25,9 @@
   font-size: 30px;
   text-align: center;
   grid-column: 2;
+}
+
+.box-buttons {
+  display: flex;
+  justify-content: right;
 }

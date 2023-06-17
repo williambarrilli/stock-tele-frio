@@ -1,5 +1,5 @@
 .tableContainer {
- margin: 0 auto; /* centraliza horizontalmente */
+  margin: 0 auto; /* centraliza horizontalmente */
   margin-top: 20px;
   display: flex;
   justify-content: center;
@@ -9,29 +9,48 @@
 }
 .table {
   min-width: 80%;
-  border-radius: 10px;
   border: solid 1px;
   border-color: #dfd6d6;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .tableHead {
   background-color: #f5f5f5;
 }
-.colum1, .colum2, .colum3, .colum4, .colum5, .colum6 {
+.colum1,
+.colum2,
+.colum3,
+.colum4,
+.colum5,
+.colum6 {
   text-align: center;
-  border-right: solid 0.5px;
-  border-color: #e1d4d4;
 }
 
-.colum1, .colum6 {
+.colum1,
+.colum6 {
   width: 10%;
 }
 
-.colum2, .colum3, .colum4, .colum5 {
+.colum2,
+.colum3,
+.colum4,
+.colum5 {
   width: 20%;
 }
 .tableCell {
   text-align: center;
   padding: 8px;
-  border-top: solid 0.5px;
-  border-color: #e1d4d4;
+  border-bottom: 1px solid;
+}
+
+.icon {
+  width: 20px;
+}
+
+.icon-box {
+  width: 30px;
+}
+
+.label-quantity {
+  margin: 3px;
 }
