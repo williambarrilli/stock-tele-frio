@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './styles.css'; // Arquivo CSS para estilização da tabela
 import { iProduct } from '../../types/product';
 import TableComponent from '../../components/Table';
+import Button from '@mui/material/Button';
 
 const listaProducts: iProduct[] = [
   {
@@ -137,9 +138,23 @@ const listaProducts: iProduct[] = [
 ];
 
 export default function Home() {
+  const [openModalNewProduct, setOpenModalNewProduct] = useState(false);
+  const [sellProduct, setSellProduct] = useState(false);
+
   return (
     <div>
+      Header | Logo
       <TableComponent lista={listaProducts} />
+      <Button variant="contained" onClick={() => setOpenModalNewProduct(true)}>
+        Adicionar Produto
+      </Button>
+      <Button
+        variant="contained"
+        color="success"
+        onClick={() => setSellProduct(true)}
+      >
+        Vender Produto
+      </Button>
     </div>
   );
 }
