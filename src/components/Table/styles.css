@@ -1,0 +1,24 @@
+.table-container {
+  display: flex;
+  justify-content: center;
+}
+
+.table {
+  display: grid;
+  /* grid-template-columns: repeat(
+    7,
+    1fr
+  ); Define 3 colunas com largura igual */
+  grid-gap: 8px; /* Define o espaçamento entre as células */
+  background-color: #f0f0f0;
+  padding: 16px;
+}
+
+.table-row {
+  display: grid;
+}
+
+.table-cell {
+  padding: 8px;
+  border: 1px solid #ccc;
+}
