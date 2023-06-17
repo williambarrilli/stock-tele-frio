@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './styles.css'; // Arquivo CSS para estilização da tabela
 import { iProduct } from '../../types/product';
 import TableComponent from '../../components/Table';
 import Button from '@mui/material/Button';
