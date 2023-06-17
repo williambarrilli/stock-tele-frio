@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './styles.css'; // Arquivo CSS para estilização da tabela
 import { iProduct } from '../../types/product';
 import TableComponent from '../../components/Table';
 import Button from '@mui/material/Button';
+import FormNewProduct from '../../components/FormNewProduct';
+import ModalComponent from '../../components/Modal';
 
 const listaProducts: iProduct[] = [
   {
@@ -155,6 +157,12 @@ export default function Home() {
       >
         Vender Produto
       </Button>
+      <ModalComponent
+        isOpen={openModalNewProduct}
+        onClose={() => setOpenModalNewProduct(false)}
+      >
+        <FormNewProduct />
+      </ModalComponent>
     </div>
   );
 }
