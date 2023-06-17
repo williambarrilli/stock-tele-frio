@@ -15,25 +15,23 @@ interface InputComponentProps {
 export default function SelectComponent({
   label,
   onChange,
-  value,
   disabled,
+  value,
   options,
 }: InputComponentProps) {
   return (
-    <div className={styles.caontainer}>
-      <Select
-        id={label}
-        label={label}
-        value={'value'}
-        variant={'outlined'}
-        onChange={(e) => onChange(e.target.value)}
+    <div className={styles.container}>
+      <label className={styles.label}>{label}</label>
+      <select
+        className={styles.select}
         disabled={disabled}
-        className={styles['input-select']}
+        value={value}
+        onChange={(e) => e.target.value}
       >
         {options.map((option) => (
-          <MenuItem value={option}>{option}</MenuItem>
+          <option value={option}>{option}</option>
         ))}
-      </Select>
+      </select>
     </div>
   );
 }

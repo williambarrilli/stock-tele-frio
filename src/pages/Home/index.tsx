@@ -163,11 +163,8 @@ export default function Home() {
           Vender Produto
         </Button>
       </div>
-      <ModalComponent
-        isOpen={openModalNewProduct}
-        onClose={() => setOpenModalNewProduct(false)}
-      >
-        <FormNewProduct />
+      <ModalComponent isOpen={openModalNewProduct}>
+        <FormNewProduct onClose={() => setOpenModalNewProduct(false)} />
       </ModalComponent>
     </div>
   );

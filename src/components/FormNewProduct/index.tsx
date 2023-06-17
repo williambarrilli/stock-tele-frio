@@ -1,8 +1,9 @@
 import styles from './styles.module.scss';
 import InputComponent from '../InputComponent';
 import SelectComponent from '../SelectComponent';
+import Button from '@mui/material/Button';
 
-export default function FormNewProduct() {
+export default function FormNewProduct({ onClose }: { onClose: () => void }) {
   const unitMeasurement = ['Unidade', 'liter', 'Kg', 'Mt'];
 
   return (
@@ -95,6 +96,12 @@ export default function FormNewProduct() {
           />
         </div>
       </div>
+      <Button variant="text" onClick={() => onClose()}>
+        cancelar
+      </Button>
+      <Button variant="contained" onClick={() => onClose()}>
+        Salvar
+      </Button>
     </div>
   );
 }

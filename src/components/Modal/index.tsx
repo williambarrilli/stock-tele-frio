@@ -4,14 +4,9 @@ import styles from './styles.module.scss';
 interface ModalProps {
   isOpen: boolean;
   children: ReactNode;
-  onClose: () => void;
 }
 
-export default function ModalComponent({
-  isOpen,
-  onClose,
-  children,
-}: ModalProps) {
+export default function ModalComponent({ isOpen, children }: ModalProps) {
   if (isOpen)
     return (
       <div className={styles.overlay}>

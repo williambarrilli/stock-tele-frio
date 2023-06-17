@@ -1,7 +1,24 @@
 .container {
-  //   height: 223px;
+  display: flex;
+  flex-direction: column;
 }
-.input-select {
+.select {
+  color: rgba(0, 0, 0, 0.6);
+
+  font-size: large;
+  border: 1;
+  border-radius: 4px;
+  background: none;
+  height: 56px;
   width: 223px;
-  // color: blue;
+}
+.label {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
+  padding: 2;
+  text-align: left;
 }
