@@ -5,6 +5,8 @@ import TableComponent from '../../components/Table';
 import Button from '@mui/material/Button';
 import FormNewProduct from '../../components/FormNewProduct';
 import ModalComponent from '../../components/Modal';
+import styles from './styles.module.scss';
+import Header from '../../components/Header';
 
 const listaProducts: iProduct[] = [
   {
@@ -145,18 +147,23 @@ export default function Home() {
 
   return (
     <div>
-      Header | Logo
+      <Header />
       <TableComponent lista={listaProducts} />
-      <Button variant="contained" onClick={() => setOpenModalNewProduct(true)}>
-        Adicionar Produto
-      </Button>
-      <Button
-        variant="contained"
-        color="success"
-        onClick={() => setSellProduct(true)}
-      >
-        Vender Produto
-      </Button>
+      <div className={styles.content}>
+        <Button
+          variant="contained"
+          onClick={() => setOpenModalNewProduct(true)}
+        >
+          Adicionar Produto
+        </Button>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => setSellProduct(true)}
+        >
+          Vender Produto
+        </Button>
+      </div>
       <ModalComponent
         isOpen={openModalNewProduct}
         onClose={() => setOpenModalNewProduct(false)}
