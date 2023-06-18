@@ -1,2 +1,36 @@
 .container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  color: rgba(51, 51, 51, 0.6);
+  border-color: #d0d5dd;
+  font-size: large;
+  height: 23px;
+  padding: 16.5px 14px;
+  background: #ffffff;
+  /* Gray/300 */
+
+  border: 1px solid #929292;
+  /* Shadow/xs */
+
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 4px;
+}
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.label {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
+  padding: 2;
+  text-align: left;
 }

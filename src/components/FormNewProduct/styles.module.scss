@@ -6,22 +6,18 @@
 
 .grid-container {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 48% 48%;
+  column-gap: 2%;
 }
 
-.grid-item {
-  padding: 20px;
-  font-size: 30px;
-  text-align: center;
-}
 .grid-item-1 {
-  padding: 20px;
+  padding: 10px;
   font-size: 30px;
   text-align: center;
   grid-column: 1;
 }
 .grid-item-2 {
-  padding: 20px;
+  padding: 10px;
   font-size: 30px;
   text-align: center;
   grid-column: 2;

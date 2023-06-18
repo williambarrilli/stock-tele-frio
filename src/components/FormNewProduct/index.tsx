@@ -32,7 +32,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
     <div className={styles['container']}>
       <h1>Cadastro de produto</h1>
       <div className={styles['grid-container']}>
-        <div className={styles['grid-item']}>
+        <div className={styles['grid-item-1']}>
           <InputComponent
             label="Código"
             value={productForm.id}
@@ -48,14 +48,14 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
             type="text"
           />
         </div>
-        <div className={styles['grid-item']}>
+        <div className={styles['grid-item-2']}>
           <InputComponent
             label="Categoria"
             value={productForm.category}
             onChange={(e) => handleChange('category', e)}
           />
         </div>
-        <div className={styles['grid-item']}>
+        <div className={styles['grid-item-1']}>
           <InputComponent
             label="Marca"
             value={productForm.brand}
@@ -63,7 +63,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
             type="text"
           />
         </div>
-        <div className={styles['grid-item']}>
+        <div className={styles['grid-item-2']}>
           <InputComponent
             label="Localização"
             value={productForm.location}
@@ -71,7 +71,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
             type="text"
           />
         </div>
-        <div className={styles['grid-item']}>
+        <div className={styles['grid-item-1']}>
           <InputComponent
             label="Valor de compra"
             value={productForm.buyPrice}
@@ -93,7 +93,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
             disabled
           />
         </div>
-        <div className={styles['grid-item']}>
+        <div className={styles['grid-item-1']}>
           <SelectComponent
             label="Unidade de medida"
             value={productForm.unitMeasurement}
