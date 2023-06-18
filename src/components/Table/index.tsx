@@ -1,28 +1,18 @@
 import { iProduct } from '../../types/product';
 import styles from './styles.module.scss';
-import TableContainer from '@mui/material/TableContainer';
-import { Button } from '@mui/material';
-import objStr from 'obj-str';
 
 export default function TableComponent({ lista }: { lista: iProduct[] }) {
   return (
-    <TableContainer className={styles.tableContainer}>
+    <div className={styles.container}>
       <table className={styles.table}>
-        <thead className={styles.tableHead}>
+        <thead className={styles.thead}>
           <tr>
-            <th
-              className={`${objStr({
-                [styles['column']]: true,
-                [styles['width']]: '20%',
-              })}`}
-            >
-              ID
-            </th>
-            <th className={styles.column}>Produto</th>
-            <th className={styles.colum3}>Marca</th>
-            <th className={styles.colum4}>Categoria</th>
-            <th className={styles.colum5}>Quantidade em estoque</th>
-            <th className={styles.colum6}>Valor</th>
+            <th className={styles.column10}>ID</th>
+            <th className={styles.column30}>Produto</th>
+            <th className={styles.column15}>Marca</th>
+            <th className={styles.column15}>Categoria</th>
+            <th className={styles.column15}>Qtd. em estoque</th>
+            <th className={styles.column15}>Valor</th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +33,6 @@ export default function TableComponent({ lista }: { lista: iProduct[] }) {
             ))}
         </tbody>
       </table>
-    </TableContainer>
+    </div>
   );
 }
