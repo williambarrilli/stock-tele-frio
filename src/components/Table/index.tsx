@@ -1,4 +1,5 @@
 import { iProduct } from '../../types/product';
+import { formattedValue } from '../../utils/formatters';
 import styles from './styles.module.scss';
 
 export default function TableComponent({ lista }: { lista: iProduct[] }) {
@@ -28,7 +29,9 @@ export default function TableComponent({ lista }: { lista: iProduct[] }) {
                 <td className={styles.tableCell}>{product.brand}</td>
                 <td className={styles.tableCell}>{product.category}</td>
                 <td className={styles.tableCell}>{product.quantity}</td>
-                <td className={styles.tableCell}>{product.sellPrice}</td>
+                <td className={styles.tableCell}>
+                  {formattedValue(product.sellPrice)}
+                </td>
               </tr>
             ))}
         </tbody>

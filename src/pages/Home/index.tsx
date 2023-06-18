@@ -6,11 +6,12 @@ import FormNewProduct from '../../components/FormNewProduct';
 import ModalComponent from '../../components/Modal';
 import styles from './styles.module.scss';
 import Header from '../../components/Header';
+import InputComponent from '../../components/InputComponent';
 
 const listaProducts: iProduct[] = [
   {
     id: '1',
-    name: 'name',
+    name: 'polca',
     category: 'category',
     brand: 'brand',
     location: 'location',
@@ -22,8 +23,8 @@ const listaProducts: iProduct[] = [
     unitMeasurement: 'unidade',
   },
   {
-    id: '1',
-    name: 'string',
+    id: '2',
+    name: 'batata',
     category: 'string',
     brand: 'string',
     location: 'string',
@@ -35,8 +36,8 @@ const listaProducts: iProduct[] = [
     unitMeasurement: 'unidade',
   },
   {
-    id: '1',
-    name: 'string',
+    id: '3',
+    name: 'ar',
     category: 'string',
     brand: 'string',
     location: 'string',
@@ -48,8 +49,8 @@ const listaProducts: iProduct[] = [
     unitMeasurement: 'unidade',
   },
   {
-    id: '1',
-    name: 'string',
+    id: '4',
+    name: 'copo',
     category: 'string',
     brand: 'string',
     location: 'string',
@@ -61,8 +62,8 @@ const listaProducts: iProduct[] = [
     unitMeasurement: 'unidade',
   },
   {
-    id: '1',
-    name: 'string',
+    id: '5',
+    name: 'pote',
     category: 'string',
     brand: 'string',
     location: 'string',
@@ -74,8 +75,8 @@ const listaProducts: iProduct[] = [
     unitMeasurement: 'unidade',
   },
   {
-    id: '1',
-    name: 'string',
+    id: '6',
+    name: 'prego',
     category: 'string',
     brand: 'string',
     location: 'string',
@@ -87,8 +88,8 @@ const listaProducts: iProduct[] = [
     unitMeasurement: 'unidade',
   },
   {
-    id: '1',
-    name: 'string',
+    id: '7',
+    name: 'martelo',
     category: 'string',
     brand: 'string',
     location: 'string',
@@ -100,8 +101,8 @@ const listaProducts: iProduct[] = [
     unitMeasurement: 'unidade',
   },
   {
-    id: '1',
-    name: 'string',
+    id: '8',
+    name: 'aço',
     category: 'string',
     brand: 'string',
     location: 'string',
@@ -113,8 +114,8 @@ const listaProducts: iProduct[] = [
     unitMeasurement: 'unidade',
   },
   {
-    id: '1',
-    name: 'string',
+    id: '9',
+    name: 'gás',
     category: 'string',
     brand: 'string',
     location: 'string',
@@ -126,8 +127,8 @@ const listaProducts: iProduct[] = [
     unitMeasurement: 'unidade',
   },
   {
-    id: '1',
-    name: 'string',
+    id: '10',
+    name: 'filtro',
     category: 'string',
     brand: 'string',
     location: 'string',
@@ -146,15 +147,26 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <TableComponent lista={listaProducts} />
       <div className={styles.content}>
+        <InputComponent
+          label=""
+          placeholder="Digite o nome do produto"
+          value={''}
+          onChange={(e) => console.log(e)}
+          type="text"
+        />
         <Button
           variant="contained"
           onClick={() => setOpenModalNewProduct(true)}
         >
+          Pesquisar
+        </Button>
+        <Button variant="outlined" onClick={() => setOpenModalNewProduct(true)}>
           Adicionar Produto
         </Button>
       </div>
+
+      <TableComponent lista={listaProducts} />
       <ModalComponent isOpen={openModalNewProduct}>
         <FormNewProduct onClose={() => setOpenModalNewProduct(false)} />
       </ModalComponent>

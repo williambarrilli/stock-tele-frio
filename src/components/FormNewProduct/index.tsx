@@ -4,6 +4,11 @@ import SelectComponent from '../SelectComponent';
 import Button from '@mui/material/Button';
 import { iProduct } from '../../types/product';
 import { useState } from 'react';
+import {
+  ProfitPercentage,
+  currencyToInteger,
+  formattedValue,
+} from '../../utils/formatters';
 
 export default function FormNewProduct({ onClose }: { onClose: () => void }) {
   const [productForm, setProductForm] = useState<iProduct>({
@@ -22,6 +27,9 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
   const unitMeasurement = ['Unidade', 'Litro', 'Kg', 'Mt'];
 
   const handleChange = (name: string, value: string | number) => {
+    if ((value && name === 'buyPrice') || name === 'sellPrice') {
+      value = currencyToInteger(value as string);
+    }
     setProductForm((prevState) => ({
       ...prevState,
       [name]: value,
@@ -76,6 +84,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
             label="Valor de compra"
             value={productForm.buyPrice}
             onChange={(e) => handleChange('buyPrice', e)}
+            mask="currency"
           />
         </div>
         <div className={styles['grid-item-1']}>
@@ -83,12 +92,17 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
             label="Preço de venda"
             value={productForm.sellPrice}
             onChange={(e) => handleChange('sellPrice', e)}
+            mask="currency"
           />
         </div>
         <div className={styles['grid-item-2']}>
           <InputComponent
             label="Margem de venda"
-            value={productForm.salesMargin}
+            placeholder={'R$0,00'}
+            value={`${ProfitPercentage(
+              productForm.buyPrice,
+              productForm.sellPrice,
+            )}%`}
             onChange={(e) => handleChange('salesMargin', e)}
             disabled
           />
