@@ -38,7 +38,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
 
   return (
     <div className={styles['container']}>
-      <h1>Cadastro de produto</h1>
+      <h1 className={styles.text}>Cadastro de produto</h1>
       <div className={styles['grid-container']}>
         <div className={styles['grid-item-1']}>
           <InputComponent
