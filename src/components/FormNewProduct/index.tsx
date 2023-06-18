@@ -4,11 +4,7 @@ import SelectComponent from '../SelectComponent';
 import Button from '@mui/material/Button';
 import { iProduct } from '../../types/product';
 import { useState } from 'react';
-import {
-  ProfitPercentage,
-  currencyToInteger,
-  formattedValue,
-} from '../../utils/formatters';
+import { ProfitPercentage, currencyToInteger } from '../../utils/formatters';
 
 export default function FormNewProduct({ onClose }: { onClose: () => void }) {
   const [productForm, setProductForm] = useState<iProduct>({
@@ -24,7 +20,15 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
     alertQuantity: 0,
     unitMeasurement: '',
   });
-  const unitMeasurement = ['Unidade', 'Litro', 'Kg', 'Mt'];
+
+  const unitMeasurement = ['Unidade', 'Litro', 'Kg', 'Mt', 'Outros'];
+  const categories = [
+    'Maquina de lavar',
+    'Refrigeração',
+    'Ferramentas',
+    'Material',
+    'Outros',
+  ];
 
   const handleChange = (name: string, value: string | number) => {
     if ((value && name === 'buyPrice') || name === 'sellPrice') {
@@ -43,6 +47,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
         <div className={styles['grid-item-1']}>
           <InputComponent
             label="Código"
+            placeholder="Digite o codigo do produto"
             value={productForm.id}
             onChange={(e) => handleChange('id', e)}
             type="number"
@@ -50,22 +55,26 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
         </div>
         <div className={styles['grid-item-1']}>
           <InputComponent
-            label="Nome"
+            label="Nome do produto"
+            placeholder="Digite o nome do produto"
             value={productForm.name}
             onChange={(e) => handleChange('name', e)}
             type="text"
           />
         </div>
         <div className={styles['grid-item-2']}>
-          <InputComponent
+          <SelectComponent
             label="Categoria"
+            placeholder="Selecione a categoria do produto"
             value={productForm.category}
             onChange={(e) => handleChange('category', e)}
+            options={categories}
           />
         </div>
         <div className={styles['grid-item-1']}>
           <InputComponent
             label="Marca"
+            placeholder="Digite a Marca do produto"
             value={productForm.brand}
             onChange={(e) => handleChange('brand', e)}
             type="text"
@@ -74,6 +83,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
         <div className={styles['grid-item-2']}>
           <InputComponent
             label="Localização"
+            placeholder="Digite a Localização do produto"
             value={productForm.location}
             onChange={(e) => handleChange('location', e)}
             type="text"
@@ -82,6 +92,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
         <div className={styles['grid-item-1']}>
           <InputComponent
             label="Valor de compra"
+            placeholder="Digite o valor de compra do produto"
             value={productForm.buyPrice}
             onChange={(e) => handleChange('buyPrice', e)}
             mask="currency"
@@ -90,6 +101,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
         <div className={styles['grid-item-1']}>
           <InputComponent
             label="Preço de venda"
+            placeholder="Digite o valor de venda do produto"
             value={productForm.sellPrice}
             onChange={(e) => handleChange('sellPrice', e)}
             mask="currency"
@@ -110,6 +122,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
         <div className={styles['grid-item-1']}>
           <SelectComponent
             label="Unidade de medida"
+            placeholder="Selecione a categoria do produto"
             value={productForm.unitMeasurement}
             onChange={(e) => handleChange('unitMeasurement', e)}
             options={unitMeasurement}
@@ -120,6 +133,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
           <InputComponent
             label="Estoque atual"
             value={productForm.quantity}
+            placeholder="Digite a qtd em estoque"
             onChange={(e) => handleChange('quantity', e)}
             type="number"
           />
@@ -127,6 +141,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
         <div className={styles['grid-item-2']}>
           <InputComponent
             label="aviso de estoque minimo"
+            placeholder="Digite a qtd para ser avisado"
             value={productForm.alertQuantity}
             onChange={(e) => handleChange('alertQuantity', e)}
             type="number"

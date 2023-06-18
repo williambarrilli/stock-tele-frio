@@ -7,6 +7,7 @@ import ModalComponent from '../../components/Modal';
 import styles from './styles.module.scss';
 import Header from '../../components/Header';
 import InputComponent from '../../components/InputComponent';
+import FormUpdateStock from '../../components/FormUpdateStock';
 
 const listaProducts: iProduct[] = [
   {
@@ -143,6 +144,7 @@ const listaProducts: iProduct[] = [
 
 export default function Home() {
   const [openModalNewProduct, setOpenModalNewProduct] = useState(false);
+  const [openModalUpdateStock, setOpenModalUpdateStock] = useState(false);
 
   return (
     <div>
@@ -155,6 +157,7 @@ export default function Home() {
           onChange={(e) => console.log(e)}
           type="text"
         />
+
         <Button
           variant="contained"
           onClick={() => setOpenModalNewProduct(true)}
@@ -164,11 +167,21 @@ export default function Home() {
         <Button variant="outlined" onClick={() => setOpenModalNewProduct(true)}>
           Adicionar Produto
         </Button>
+        <Button
+          onClick={() => setOpenModalUpdateStock(true)}
+          style={{ fontWeight: 550 }}
+        >
+          Alterar Estoque
+        </Button>
       </div>
 
       <TableComponent lista={listaProducts} />
       <ModalComponent isOpen={openModalNewProduct}>
         <FormNewProduct onClose={() => setOpenModalNewProduct(false)} />
+      </ModalComponent>
+
+      <ModalComponent isOpen={openModalUpdateStock}>
+        <FormUpdateStock onClose={() => setOpenModalUpdateStock(false)} />
       </ModalComponent>
     </div>
   );

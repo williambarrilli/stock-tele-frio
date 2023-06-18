@@ -8,7 +8,7 @@ export default function TableComponent({ lista }: { lista: iProduct[] }) {
       <table className={styles.table}>
         <thead className={styles.thead}>
           <tr>
-            <th className={styles.column10}>ID</th>
+            <th className={styles.column10}>Código</th>
             <th className={styles.column30}>Produto</th>
             <th className={styles.column15}>Marca</th>
             <th className={styles.column15}>Categoria</th>

@@ -28,7 +28,6 @@ export default function InputComponent({
         <CurrencyInput
           id={label}
           placeholder={'R$0,00'}
-          defaultValue={1000}
           decimalSeparator=","
           groupSeparator="."
           decimalsLimit={2}

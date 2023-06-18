@@ -6,6 +6,7 @@ interface InputComponentProps {
   value: string | number;
   disabled?: boolean;
   options: string[];
+  placeholder?: string;
 }
 
 export default function SelectComponent({
@@ -14,6 +15,7 @@ export default function SelectComponent({
   disabled,
   value,
   options,
+  placeholder,
 }: InputComponentProps) {
   return (
     <div className={styles.container}>
@@ -23,6 +25,7 @@ export default function SelectComponent({
         disabled={disabled}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
       >
         {options.map((option) => (
           <option value={option}>{option}</option>
