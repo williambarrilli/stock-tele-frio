@@ -1,21 +1,17 @@
 import { ReactNode } from 'react';
-import Dialog from '@mui/material/Dialog';
-import './styles.css';
+import styles from './styles.module.scss';
 
 interface ModalProps {
-  open: boolean;
-  onClose: () => void;
+  isOpen: boolean;
   children: ReactNode;
 }
 
-export default function Modal({ open, onClose, children }: ModalProps) {
-  return (
-    <Dialog
-      open={open}
-      onClose={() => onClose()}
-      className="container-modal-new"
-    >
-      {children}
-    </Dialog>
-  );
+export default function ModalComponent({ isOpen, children }: ModalProps) {
+  if (isOpen)
+    return (
+      <div className={styles.overlay}>
+        <div className={styles.content}>{children}</div>;
+      </div>
+    );
+  return <></>;
 }

@@ -1,0 +1,54 @@
+.container {
+  width: 70vw;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 48% 48%;
+  column-gap: 2%;
+  margin: 20px;
+}
+
+.grid-item-1 {
+  padding: 5px;
+  font-size: 30px;
+  text-align: center;
+  grid-column: 1;
+}
+.grid-item-2 {
+  padding: 5px;
+  font-size: 30px;
+  text-align: center;
+  grid-column: 2;
+}
+
+.box-buttons {
+  display: flex;
+  justify-content: center;
+  button {
+    margin-left: 10px;
+  }
+}
+.text {
+  font-size: 30px;
+  font-family: sans-serif;
+  text-align: center;
+  color: rgb(108, 130, 168);
+}
+
+.box-checkbox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.checkboxLabel {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
+}
