@@ -10,6 +10,7 @@ import {
 } from 'firebase/firestore';
 import { firebaseConfig } from '../init-firebase';
 import { iProduct } from '../types/product';
+import { toast } from 'react-toastify';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -34,7 +35,6 @@ export const getProductByFilter = async (type: string, search: string) => {
   const retorno: any[] = [];
 
   const productsRef = collection(db, 'products');
-  console.log('productsRef', productsRef);
 
   const queryType = type.toLowerCase() === 'nome' ? 'name' : 'id';
 
@@ -43,10 +43,8 @@ export const getProductByFilter = async (type: string, search: string) => {
     where(queryType, '>=', search),
     where(queryType, '<=', search + '\uf8ff'),
   );
-  console.log('searchQuery', searchQuery);
 
   const querySnapshot = await getDocs(searchQuery);
-  console.log('querySnapshot', querySnapshot);
   querySnapshot.forEach((doc) => {
     if (doc.data()) retorno.push(doc.data());
   });
@@ -57,7 +55,18 @@ export const getProductByFilter = async (type: string, search: string) => {
 export const createProduct = async (product: iProduct) => {
   try {
     const documentRef = collection(db, 'products');
-    return await addDoc(documentRef, product);
+    await addDoc(documentRef, product);
+    //  TODO REMOVER
+    return toast.success('Produto Criado com sucesso', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
   } catch (error) {
     console.log('Error add document:', error);
   }

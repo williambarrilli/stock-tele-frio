@@ -13,7 +13,7 @@ export enum unitMeasurement {
 }
 
 export interface iProduct {
-  id: string;
+  id: string | number;
   name: string;
   category: string;
   brand: string;

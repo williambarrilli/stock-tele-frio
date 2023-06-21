@@ -9,7 +9,7 @@ import { createProduct } from '../../controller/firestore';
 
 export default function FormNewProduct({ onClose }: { onClose: () => void }) {
   const [productForm, setProductForm] = useState<iProduct>({
-    id: '',
+    id: 0,
     name: '',
     category: 'Maquina de lavar',
     brand: '',
@@ -66,7 +66,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
             label="Código"
             placeholder="Digite o codigo do produto"
             value={productForm.id}
-            onChange={(e) => handleChange('id', e)}
+            onChange={(e) => handleChange('id', Number(e))}
             type="number"
           />
         </div>

@@ -25,7 +25,7 @@ export default function Home() {
   const [filtredListProducts, setFiltredListProducts] = useState<iProduct[]>(
     [],
   );
-  console.log(filtredListProducts, listProducts);
+
   const filterList = async () => {
     const list = await getProductByFilter(typeSearch, searchText);
     setFiltredListProducts(list);
