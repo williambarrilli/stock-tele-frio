@@ -9,19 +9,37 @@ import Header from '../../components/Header';
 import InputComponent from '../../components/InputComponent';
 import FormUpdateStock from '../../components/FormUpdateStock';
 import SelectComponent from '../../components/SelectComponent';
-import { createProduct, getProductsList } from '../../controller/firestore';
+import {
+  getProductByFilter,
+  getProductsList,
+} from '../../controller/firestore';
 
 export default function Home() {
   const [openModalNewProduct, setOpenModalNewProduct] = useState(false);
   const [openModalUpdateStock, setOpenModalUpdateStock] = useState(false);
+
   const [typeSearch, setTypeSearch] = useState('');
   const [searchText, setSearchText] = useState('');
+
   const [listProducts, setListProducts] = useState<iProduct[]>([]);
+  const [filtredListProducts, setFiltredListProducts] = useState<iProduct[]>(
+    [],
+  );
+  console.log(filtredListProducts, listProducts);
+  const filterList = async () => {
+    const list = await getProductByFilter(typeSearch, searchText);
+    setFiltredListProducts(list);
+  };
 
   const getProducts = async () => {
     const list = await getProductsList();
     setListProducts(list);
   };
+
+  useEffect(() => {
+    setFiltredListProducts([]);
+  }, [searchText]);
+
   useEffect(() => {
     getProducts();
   }, [openModalNewProduct, openModalUpdateStock]);
@@ -44,7 +62,7 @@ export default function Home() {
           type="text"
         />
 
-        <Button variant="contained" onClick={() => console.log(true)}>
+        <Button variant="contained" onClick={() => filterList()}>
           Filtrar
         </Button>
         <Button variant="outlined" onClick={() => setOpenModalNewProduct(true)}>
@@ -58,7 +76,13 @@ export default function Home() {
         </Button>
       </div>
 
-      <TableComponent lista={listProducts} />
+      <TableComponent
+        lista={
+          searchText && filtredListProducts.length
+            ? filtredListProducts
+            : listProducts
+        }
+      />
       <ModalComponent isOpen={openModalNewProduct}>
         <FormNewProduct onClose={() => setOpenModalNewProduct(false)} />
       </ModalComponent>

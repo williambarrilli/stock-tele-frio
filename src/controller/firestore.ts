@@ -3,12 +3,10 @@ import {
   getDocs,
   getFirestore,
   query,
-  updateDoc,
   where,
   collection,
-  doc,
   addDoc,
-  getDoc,
+  orderBy,
 } from 'firebase/firestore';
 import { firebaseConfig } from '../init-firebase';
 import { iProduct } from '../types/product';
@@ -19,28 +17,41 @@ const db = getFirestore(app);
 
 export const getProductsList = async () => {
   const retorno: any[] = [];
+
   const productsRef = collection(db, 'products');
-  const q = query(productsRef);
+
+  const q = query(productsRef, orderBy('id'));
 
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     retorno.push(doc.data());
   });
 
-  return retorno;
+  return retorno as iProduct[];
 };
 
 export const getProductByFilter = async (type: string, search: string) => {
+  const retorno: any[] = [];
+
   const productsRef = collection(db, 'products');
+  console.log('productsRef', productsRef);
+
   const queryType = type.toLowerCase() === 'nome' ? 'name' : 'id';
-  const searchQuery = query(productsRef, where(queryType, '==', search));
+
+  const searchQuery = query(
+    productsRef,
+    where(queryType, '>=', search),
+    where(queryType, '<=', search + '\uf8ff'),
+  );
+  console.log('searchQuery', searchQuery);
 
   const querySnapshot = await getDocs(searchQuery);
-  let retorno;
+  console.log('querySnapshot', querySnapshot);
   querySnapshot.forEach((doc) => {
-    if (doc.data().name) retorno = { ...doc.data(), id: doc.id };
+    if (doc.data()) retorno.push(doc.data());
   });
-  return retorno;
+
+  return retorno as iProduct[];
 };
 
 export const createProduct = async (product: iProduct) => {
