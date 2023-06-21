@@ -3,14 +3,15 @@ import InputComponent from '../InputComponent';
 import SelectComponent from '../SelectComponent';
 import Button from '@mui/material/Button';
 import { iProduct } from '../../types/product';
-import { useState } from 'react';
-import { ProfitPercentage, currencyToInteger } from '../../utils/formatters';
+import { useMemo, useState } from 'react';
+import { profitPercentage, currencyToInteger } from '../../utils/formatters';
+import { createProduct } from '../../controller/firestore';
 
 export default function FormNewProduct({ onClose }: { onClose: () => void }) {
   const [productForm, setProductForm] = useState<iProduct>({
     id: '',
     name: '',
-    category: '',
+    category: 'Maquina de lavar',
     brand: '',
     location: '',
     buyPrice: 0,
@@ -18,7 +19,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
     salesMargin: 0,
     quantity: 0,
     alertQuantity: 0,
-    unitMeasurement: '',
+    unitMeasurement: 'Unidade',
   });
 
   const unitMeasurement = ['Unidade', 'Litro', 'Kg', 'Mt', 'Outros'];
@@ -39,6 +40,22 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
       [name]: value,
     }));
   };
+
+  const handleSave = () => {
+    createProduct(productForm);
+    setTimeout(() => {
+      onClose();
+    }, 700);
+  };
+
+  const salesMargin = useMemo(() => {
+    const margin = profitPercentage(
+      productForm.buyPrice,
+      productForm.sellPrice,
+    );
+    handleChange('saleMargin', margin);
+    return margin;
+  }, [productForm.buyPrice, productForm.sellPrice]);
 
   return (
     <div className={styles['container']}>
@@ -110,11 +127,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
         <div className={styles['grid-item-2']}>
           <InputComponent
             label="Margem de venda"
-            placeholder={'R$0,00'}
-            value={`${ProfitPercentage(
-              productForm.buyPrice,
-              productForm.sellPrice,
-            )}%`}
+            value={`${salesMargin}%`}
             onChange={(e) => handleChange('salesMargin', e)}
             disabled
           />
@@ -152,7 +165,7 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
         <Button variant="text" onClick={() => onClose()}>
           cancelar
         </Button>
-        <Button variant="contained" onClick={() => onClose()}>
+        <Button variant="contained" onClick={() => handleSave()}>
           Salvar
         </Button>
       </div>

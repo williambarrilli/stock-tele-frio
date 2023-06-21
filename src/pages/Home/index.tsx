@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { iProduct } from '../../types/product';
 import TableComponent from '../../components/Table';
 import Button from '@mui/material/Button';
@@ -8,161 +8,44 @@ import styles from './styles.module.scss';
 import Header from '../../components/Header';
 import InputComponent from '../../components/InputComponent';
 import FormUpdateStock from '../../components/FormUpdateStock';
-
-const listaProducts: iProduct[] = [
-  {
-    id: '1',
-    name: 'polca',
-    category: 'category',
-    brand: 'brand',
-    location: 'location',
-    buyPrice: 10,
-    sellPrice: 15,
-    salesMargin: 5,
-    quantity: 20,
-    alertQuantity: 7,
-    unitMeasurement: 'unidade',
-  },
-  {
-    id: '2',
-    name: 'batata',
-    category: 'string',
-    brand: 'string',
-    location: 'string',
-    buyPrice: 10,
-    sellPrice: 15,
-    salesMargin: 5,
-    quantity: 20,
-    alertQuantity: 7,
-    unitMeasurement: 'unidade',
-  },
-  {
-    id: '3',
-    name: 'ar',
-    category: 'string',
-    brand: 'string',
-    location: 'string',
-    buyPrice: 10,
-    sellPrice: 15,
-    salesMargin: 5,
-    quantity: 20,
-    alertQuantity: 7,
-    unitMeasurement: 'unidade',
-  },
-  {
-    id: '4',
-    name: 'copo',
-    category: 'string',
-    brand: 'string',
-    location: 'string',
-    buyPrice: 10,
-    sellPrice: 15,
-    salesMargin: 5,
-    quantity: 20,
-    alertQuantity: 7,
-    unitMeasurement: 'unidade',
-  },
-  {
-    id: '5',
-    name: 'pote',
-    category: 'string',
-    brand: 'string',
-    location: 'string',
-    buyPrice: 10,
-    sellPrice: 15,
-    salesMargin: 5,
-    quantity: 20,
-    alertQuantity: 7,
-    unitMeasurement: 'unidade',
-  },
-  {
-    id: '6',
-    name: 'prego',
-    category: 'string',
-    brand: 'string',
-    location: 'string',
-    buyPrice: 10,
-    sellPrice: 15,
-    salesMargin: 5,
-    quantity: 20,
-    alertQuantity: 7,
-    unitMeasurement: 'unidade',
-  },
-  {
-    id: '7',
-    name: 'martelo',
-    category: 'string',
-    brand: 'string',
-    location: 'string',
-    buyPrice: 10,
-    sellPrice: 15,
-    salesMargin: 5,
-    quantity: 20,
-    alertQuantity: 7,
-    unitMeasurement: 'unidade',
-  },
-  {
-    id: '8',
-    name: 'aço',
-    category: 'string',
-    brand: 'string',
-    location: 'string',
-    buyPrice: 10,
-    sellPrice: 15,
-    salesMargin: 5,
-    quantity: 20,
-    alertQuantity: 7,
-    unitMeasurement: 'unidade',
-  },
-  {
-    id: '9',
-    name: 'gás',
-    category: 'string',
-    brand: 'string',
-    location: 'string',
-    buyPrice: 10,
-    sellPrice: 15,
-    salesMargin: 5,
-    quantity: 20,
-    alertQuantity: 7,
-    unitMeasurement: 'unidade',
-  },
-  {
-    id: '10',
-    name: 'filtro',
-    category: 'string',
-    brand: 'string',
-    location: 'string',
-    buyPrice: 10,
-    sellPrice: 15,
-    salesMargin: 5,
-    quantity: 20,
-    alertQuantity: 7,
-    unitMeasurement: 'unidade',
-  },
-];
+import SelectComponent from '../../components/SelectComponent';
+import { createProduct, getProductsList } from '../../controller/firestore';
 
 export default function Home() {
   const [openModalNewProduct, setOpenModalNewProduct] = useState(false);
   const [openModalUpdateStock, setOpenModalUpdateStock] = useState(false);
+  const [typeSearch, setTypeSearch] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const [listProducts, setListProducts] = useState<iProduct[]>([]);
+
+  const getProducts = async () => {
+    const list = await getProductsList();
+    setListProducts(list);
+  };
+  useEffect(() => {
+    getProducts();
+  }, [openModalNewProduct, openModalUpdateStock]);
 
   return (
     <div>
       <Header />
       <div className={styles.content}>
-        <InputComponent
-          label=""
+        <SelectComponent
+          label="Selecione o tipo de filtro"
           placeholder="Digite o nome do produto"
-          value={''}
-          onChange={(e) => console.log(e)}
+          value={typeSearch}
+          onChange={(e) => setTypeSearch(e)}
+          options={['Código', 'Produto']}
+        />
+        <InputComponent
+          label="Digite o nome do produto"
+          value={searchText}
+          onChange={(e) => setSearchText(e)}
           type="text"
         />
 
-        <Button
-          variant="contained"
-          onClick={() => setOpenModalNewProduct(true)}
-        >
-          Pesquisar
+        <Button variant="contained" onClick={() => console.log(true)}>
+          Filtrar
         </Button>
         <Button variant="outlined" onClick={() => setOpenModalNewProduct(true)}>
           Adicionar Produto
@@ -175,7 +58,7 @@ export default function Home() {
         </Button>
       </div>
 
-      <TableComponent lista={listaProducts} />
+      <TableComponent lista={listProducts} />
       <ModalComponent isOpen={openModalNewProduct}>
         <FormNewProduct onClose={() => setOpenModalNewProduct(false)} />
       </ModalComponent>

@@ -2,7 +2,7 @@ import styles from './styles.module.scss';
 
 interface InputComponentProps {
   label: string;
-  onChange: (value: string | number) => void;
+  onChange: (value: string) => void;
   value: string | number;
   disabled?: boolean;
   options: string[];
