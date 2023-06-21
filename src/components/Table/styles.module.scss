@@ -16,8 +16,14 @@
   tr:nth-child(even) {
     background-color: #f2f2f2;
   }
+  tr:hover {
+    transition: 700ms;
+    transform: translateY(-0px);
+    background-color: #cccccc;
+    cursor: pointer;
+  }
 }
-.thead{
+.thead {
   background-color: #bcc5f779;
 }
 

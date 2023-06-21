@@ -2,7 +2,13 @@ import { iProduct } from '../../types/product';
 import { formattedValue } from '../../utils/formatters';
 import styles from './styles.module.scss';
 
-export default function TableComponent({ lista }: { lista: iProduct[] }) {
+export default function TableComponent({
+  lista,
+  onClickItem,
+}: {
+  lista: iProduct[];
+  onClickItem: (product: iProduct) => void;
+}) {
   return (
     <div className={styles.container}>
       <table className={styles.table}>
@@ -23,6 +29,7 @@ export default function TableComponent({ lista }: { lista: iProduct[] }) {
                 key={product.id}
                 style={{ borderBottom: 'none' }}
                 className={styles.tr}
+                onClick={() => onClickItem(product)}
               >
                 <td className={styles.tableCell}>{product.id}</td>
                 <td className={styles.tableCell}>{product.name}</td>

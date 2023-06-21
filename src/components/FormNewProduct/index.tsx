@@ -3,11 +3,17 @@ import InputComponent from '../InputComponent';
 import SelectComponent from '../SelectComponent';
 import Button from '@mui/material/Button';
 import { iProduct } from '../../types/product';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { profitPercentage, currencyToInteger } from '../../utils/formatters';
 import { createProduct } from '../../controller/firestore';
 
-export default function FormNewProduct({ onClose }: { onClose: () => void }) {
+export default function FormNewProduct({
+  onClose,
+  productSelected,
+}: {
+  onClose: () => void;
+  productSelected?: iProduct;
+}) {
   const [productForm, setProductForm] = useState<iProduct>({
     id: 0,
     name: '',
@@ -56,6 +62,10 @@ export default function FormNewProduct({ onClose }: { onClose: () => void }) {
     handleChange('saleMargin', margin);
     return margin;
   }, [productForm.buyPrice, productForm.sellPrice]);
+
+  useEffect(() => {
+    if (productSelected) setProductForm(productSelected);
+  }, [productSelected]);
 
   return (
     <div className={styles['container']}>

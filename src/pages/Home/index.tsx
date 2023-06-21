@@ -26,6 +26,8 @@ export default function Home() {
     [],
   );
 
+  const [productSelected, setProductSelected] = useState<iProduct>();
+
   const filterList = async () => {
     const list = await getProductByFilter(typeSearch, searchText);
     setFiltredListProducts(list);
@@ -42,6 +44,7 @@ export default function Home() {
 
   useEffect(() => {
     getProducts();
+    setProductSelected(undefined);
   }, [openModalNewProduct, openModalUpdateStock]);
 
   return (
@@ -69,10 +72,11 @@ export default function Home() {
           Adicionar Produto
         </Button>
         <Button
-          onClick={() => setOpenModalUpdateStock(true)}
+          onClick={() => console.log()}
           style={{ fontWeight: 550 }}
+          color="error"
         >
-          Alterar Estoque
+          Produtos em alerta
         </Button>
       </div>
 
@@ -82,9 +86,16 @@ export default function Home() {
             ? filtredListProducts
             : listProducts
         }
+        onClickItem={(product) => {
+          setOpenModalNewProduct(true);
+          setProductSelected(product);
+        }}
       />
       <ModalComponent isOpen={openModalNewProduct}>
-        <FormNewProduct onClose={() => setOpenModalNewProduct(false)} />
+        <FormNewProduct
+          onClose={() => setOpenModalNewProduct(false)}
+          productSelected={productSelected}
+        />
       </ModalComponent>
 
       <ModalComponent isOpen={openModalUpdateStock}>
