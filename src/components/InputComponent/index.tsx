@@ -4,7 +4,7 @@ import CurrencyInput from 'react-currency-input-field';
 
 interface InputComponentProps {
   label: string;
-  onChange: (value: string | number) => void;
+  onChange: (value: string) => void;
   value: string | number;
   disabled?: boolean;
   type?: HTMLInputTypeAttribute;
@@ -33,7 +33,7 @@ export default function InputComponent({
           decimalsLimit={2}
           prefix={'R$'}
           onValueChange={(value, name, values) => {
-            onChange(value || 0);
+            onChange(value || '0');
           }}
           className={styles.input}
         />
