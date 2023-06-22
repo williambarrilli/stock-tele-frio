@@ -19,7 +19,7 @@ export default function TableComponent({
             <th className={styles.column15}>Marca</th>
             <th className={styles.column15}>Categoria</th>
             <th className={styles.column15}>Qtd. em estoque</th>
-            <th className={styles.column15}>Valor</th>
+            <th className={styles.column15}>Valor de Venda</th>
           </tr>
         </thead>
         <tbody>

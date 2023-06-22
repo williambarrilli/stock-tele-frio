@@ -102,6 +102,7 @@ export default function Home() {
         <FormNewProduct
           onClose={() => setOpenModalNewProduct(false)}
           productSelected={productSelected}
+          newId={listProducts.length}
         />
       </ModalComponent>
 

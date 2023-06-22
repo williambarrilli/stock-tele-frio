@@ -1,6 +1,6 @@
 .container {
   width: 70vw;
-  max-height: 85vh;
+  max-height: 90vh;
 }
 
 .grid-container {
@@ -26,6 +26,7 @@
 .box-buttons {
   display: flex;
   justify-content: center;
+  margin: 10px;
   button {
     margin-left: 10px;
   }

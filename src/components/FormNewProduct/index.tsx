@@ -10,12 +10,14 @@ import { createProduct } from '../../controller/firestore';
 export default function FormNewProduct({
   onClose,
   productSelected,
+  newId,
 }: {
   onClose: () => void;
   productSelected?: iProduct;
+  newId: number;
 }) {
   const [productForm, setProductForm] = useState<iProduct>({
-    id: '0',
+    id: newId,
     name: '',
     category: 'Maquina de lavar',
     brand: '',
@@ -75,18 +77,16 @@ export default function FormNewProduct({
     if (productSelected) setProductForm(productSelected);
   }, [productSelected]);
 
+  const title = useMemo(
+    () => `${productForm._id ? 'Atualização' : 'Cadastro'} de produto`,
+    [productForm],
+  );
+
   return (
     <div className={styles['container']}>
+      <h1 className={styles.text}>{title}</h1>
+
       <div className={styles['grid-container']}>
-        <div className={styles['grid-item-1']}>
-          <InputComponent
-            label="Código"
-            placeholder="Digite o codigo do produto"
-            value={productForm.id}
-            onChange={(e) => handleChange('id', e)}
-            type="number"
-          />
-        </div>
         <div className={styles['grid-item-1']}>
           <InputComponent
             label="Nome do produto"
@@ -97,12 +97,13 @@ export default function FormNewProduct({
           />
         </div>
         <div className={styles['grid-item-2']}>
-          <SelectComponent
-            label="Categoria"
-            placeholder="Selecione a categoria do produto"
-            value={productForm.category}
-            onChange={(e) => handleChange('category', e)}
-            options={categories}
+          <InputComponent
+            label="Código"
+            placeholder="Digite o codigo do produto"
+            value={productForm.id}
+            disabled
+            onChange={(e) => handleChange('id', e)}
+            type="number"
           />
         </div>
         <div className={styles['grid-item-1']}>
@@ -115,14 +116,15 @@ export default function FormNewProduct({
           />
         </div>
         <div className={styles['grid-item-2']}>
-          <InputComponent
-            label="Localização"
-            placeholder="Digite a Localização do produto"
-            value={productForm.location}
-            onChange={(e) => handleChange('location', e)}
-            type="text"
+          <SelectComponent
+            label="Categoria"
+            placeholder="Selecione a categoria do produto"
+            value={productForm.category}
+            onChange={(e) => handleChange('category', e)}
+            options={categories}
           />
         </div>
+
         <div className={styles['grid-item-1']}>
           <InputComponent
             label="Valor de compra"
@@ -132,16 +134,16 @@ export default function FormNewProduct({
             mask="currency"
           />
         </div>
-        <div className={styles['grid-item-1']}>
+        <div className={styles['grid-item-2']}>
           <InputComponent
-            label="Preço de venda"
+            label="Valor de venda"
             placeholder="Digite o valor de venda do produto"
             value={productForm.sellPrice}
             onChange={(e) => handleChange('sellPrice', e)}
             mask="currency"
           />
         </div>
-        <div className={styles['grid-item-2']}>
+        <div className={styles['grid-item-1']}>
           <InputComponent
             label="Margem de venda"
             value={`${salesMargin}%`}
@@ -158,7 +160,6 @@ export default function FormNewProduct({
             options={unitMeasurement}
           />
         </div>
-
         <div className={styles['grid-item-1']}>
           <InputComponent
             label="Estoque atual"
@@ -178,14 +179,14 @@ export default function FormNewProduct({
           />
         </div>
       </div>
-      <div className={styles['box-buttons']}>
+      <footer className={styles['box-buttons']}>
         <Button variant="text" onClick={() => onClose()}>
           cancelar
         </Button>
         <Button variant="contained" onClick={() => handleSave()}>
           Salvar
         </Button>
-      </div>
+      </footer>
     </div>
   );
 }

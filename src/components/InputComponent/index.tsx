@@ -1,6 +1,7 @@
 import styles from './styles.module.scss';
 import { HTMLInputTypeAttribute } from 'react';
 import CurrencyInput from 'react-currency-input-field';
+import objStr from 'obj-str';
 
 interface InputComponentProps {
   label: string;
@@ -35,7 +36,11 @@ export default function InputComponent({
           onValueChange={(value, name, values) => {
             onChange(value || '0');
           }}
-          className={styles.input}
+          className={`${objStr({
+            [styles.input]: true,
+            [styles.disabled]: disabled,
+          })}`}
+          disabled={disabled}
         />
       ) : (
         <input
@@ -45,7 +50,10 @@ export default function InputComponent({
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
           type={type}
-          className={styles.input}
+          className={`${objStr({
+            [styles.input]: true,
+            [styles.disabled]: disabled,
+          })}`}
         />
       )}
     </div>

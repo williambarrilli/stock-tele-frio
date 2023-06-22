@@ -12,7 +12,7 @@ root.render(
   <React.StrictMode>
     <>
       <ToastContainer />
-      <Login />
+      <Home />
     </>
   </React.StrictMode>,
 );
