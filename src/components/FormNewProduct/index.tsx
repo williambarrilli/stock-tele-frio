@@ -69,7 +69,7 @@ export default function FormNewProduct({
 
   return (
     <div className={styles['container']}>
-      <h1 className={styles.text}>Cadastro de produto</h1>
+      {/* <h4 className={styles.text}>Cadastro de produto</h4> */}
       <div className={styles['grid-container']}>
         <div className={styles['grid-item-1']}>
           <InputComponent
