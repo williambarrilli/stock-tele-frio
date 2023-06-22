@@ -7,7 +7,6 @@ import ModalComponent from '../../components/Modal';
 import styles from './styles.module.scss';
 import Header from '../../components/Header';
 import InputComponent from '../../components/InputComponent';
-import FormUpdateStock from '../../components/FormUpdateStock';
 import SelectComponent from '../../components/SelectComponent';
 import {
   getProductByFilter,
@@ -16,7 +15,7 @@ import {
 
 export default function Home() {
   const [openModalNewProduct, setOpenModalNewProduct] = useState(false);
-  const [openModalUpdateStock, setOpenModalUpdateStock] = useState(false);
+  const [openModalProductsAlert, setOpenModalProductsAlert] = useState(false);
 
   const [typeSearch, setTypeSearch] = useState('');
   const [searchText, setSearchText] = useState('');
@@ -38,6 +37,10 @@ export default function Home() {
     setListProducts(list);
   };
 
+  // useEffect(() => {
+  //   getProductsAlerts();
+  // }, []);
+
   useEffect(() => {
     setFiltredListProducts([]);
   }, [searchText]);
@@ -45,7 +48,7 @@ export default function Home() {
   useEffect(() => {
     getProducts();
     setProductSelected(undefined);
-  }, [openModalNewProduct, openModalUpdateStock]);
+  }, [openModalNewProduct, openModalProductsAlert]);
 
   const filterOptions: OptionsSelect[] = [
     { label: 'Código', value: 'id' },
@@ -79,7 +82,7 @@ export default function Home() {
           Adicionar Produto
         </Button>
         <Button
-          onClick={() => console.log()}
+          onClick={() => setOpenModalProductsAlert(true)}
           style={{ fontWeight: 550 }}
           color="error"
         >
@@ -106,8 +109,21 @@ export default function Home() {
         />
       </ModalComponent>
 
-      <ModalComponent isOpen={openModalUpdateStock}>
-        <FormUpdateStock onClose={() => setOpenModalUpdateStock(false)} />
+      <ModalComponent isOpen={openModalProductsAlert}>
+        {/* <TableComponent
+          lista={listProductsAlert}
+          onClickItem={(product) => {
+            setOpenModalNewProduct(true);
+            setProductSelected(product);
+          }}
+        /> */}
+        <Button
+          onClick={() => setOpenModalProductsAlert(false)}
+          style={{ fontWeight: 550 }}
+          color="error"
+        >
+          Fechar
+        </Button>
       </ModalComponent>
     </div>
   );
