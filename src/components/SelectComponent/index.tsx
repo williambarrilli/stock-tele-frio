@@ -1,3 +1,4 @@
+import { OptionsSelect } from '../../types/product';
 import styles from './styles.module.scss';
 
 interface InputComponentProps {
@@ -5,7 +6,7 @@ interface InputComponentProps {
   onChange: (value: string) => void;
   value: string | number;
   disabled?: boolean;
-  options: string[];
+  options: OptionsSelect[];
   placeholder?: string;
 }
 
@@ -28,7 +29,7 @@ export default function SelectComponent({
         placeholder={placeholder}
       >
         {options.map((option) => (
-          <option value={option}>{option}</option>
+          <option value={option.value}>{option.label}</option>
         ))}
       </select>
     </div>

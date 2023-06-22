@@ -13,6 +13,7 @@ export enum unitMeasurement {
 }
 
 export interface iProduct {
+  _id?: string;
   id: string | number;
   name: string;
   category: string;
@@ -24,4 +25,9 @@ export interface iProduct {
   quantity: number;
   alertQuantity: number;
   unitMeasurement: string;
+}
+
+export interface OptionsSelect {
+  label: string;
+  value: string | number;
 }
