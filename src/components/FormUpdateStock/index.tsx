@@ -16,13 +16,13 @@ export default function FormUpdateStock({ onClose }: { onClose: () => void }) {
       <h1 className={styles.text}>Atualização de estoque</h1>
       <div className={styles['grid-container']}>
         <div className={styles['grid-item-1']}>
-          <SelectComponent
+          {/* <SelectComponent
             label="Selecione o tipo de busca"
             placeholder=""
             value={typeSearch}
             onChange={(e) => setTypeSearch(e)}
             options={['Código', 'Produto']}
-          />
+          /> */}
         </div>
         <div className={styles['grid-item-2']}>
           <InputComponent
@@ -35,13 +35,13 @@ export default function FormUpdateStock({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className={styles['grid-item-1']}>
-          <SelectComponent
+          {/* <SelectComponent
             label="Tipo de operação"
             placeholder=""
             value={typeOperation}
             onChange={(e) => setTypeOperation(e)}
             options={['Acrescentar', 'Diminuir']}
-          />
+          /> */}
         </div>
         <div className={styles['grid-item-2']}>
           <InputComponent

@@ -24,9 +24,9 @@ export default function TableComponent({
         </thead>
         <tbody>
           {lista.length &&
-            lista?.map((product) => (
+            lista?.map((product, index) => (
               <tr
-                key={product.id}
+                key={index}
                 style={{ borderBottom: 'none' }}
                 className={styles.tr}
                 onClick={() => onClickItem(product)}

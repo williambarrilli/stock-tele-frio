@@ -2,7 +2,7 @@ import styles from './styles.module.scss';
 import InputComponent from '../InputComponent';
 import SelectComponent from '../SelectComponent';
 import Button from '@mui/material/Button';
-import { iProduct } from '../../types/product';
+import { OptionsSelect, iProduct } from '../../types/product';
 import { useEffect, useMemo, useState } from 'react';
 import { profitPercentage, currencyToInteger } from '../../utils/formatters';
 import { createProduct } from '../../controller/firestore';
@@ -15,7 +15,7 @@ export default function FormNewProduct({
   productSelected?: iProduct;
 }) {
   const [productForm, setProductForm] = useState<iProduct>({
-    id: 0,
+    id: '0',
     name: '',
     category: 'Maquina de lavar',
     brand: '',
@@ -28,13 +28,20 @@ export default function FormNewProduct({
     unitMeasurement: 'Unidade',
   });
 
-  const unitMeasurement = ['Unidade', 'Litro', 'Kg', 'Mt', 'Outros'];
-  const categories = [
-    'Maquina de lavar',
-    'Refrigeração',
-    'Ferramentas',
-    'Material',
-    'Outros',
+  const unitMeasurement = [
+    { label: 'Unidade', value: 'Unidade' },
+    { label: 'Litro', value: 'Litro' },
+    { label: 'Kg', value: 'Kg' },
+    { label: 'Mt', value: 'Mt' },
+    { label: 'Outros', value: 'Outros' },
+  ];
+
+  const categories: OptionsSelect[] = [
+    { label: 'Refrigeração', value: 'Refrigeração' },
+    { label: 'Maquina de lavar', value: 'Maquina de lavar' },
+    { label: 'Ferramentas', value: 'Ferramentas' },
+    { label: 'Material', value: 'Material' },
+    { label: 'Outros', value: 'Outros' },
   ];
 
   const handleChange = (name: string, value: string | number) => {
@@ -48,7 +55,8 @@ export default function FormNewProduct({
   };
 
   const handleSave = () => {
-    createProduct(productForm);
+    if (productForm._id) createProduct(productForm);
+    else createProduct(productForm);
     setTimeout(() => {
       onClose();
     }, 700);
@@ -69,14 +77,13 @@ export default function FormNewProduct({
 
   return (
     <div className={styles['container']}>
-      {/* <h4 className={styles.text}>Cadastro de produto</h4> */}
       <div className={styles['grid-container']}>
         <div className={styles['grid-item-1']}>
           <InputComponent
             label="Código"
             placeholder="Digite o codigo do produto"
             value={productForm.id}
-            onChange={(e) => handleChange('id', Number(e))}
+            onChange={(e) => handleChange('id', e)}
             type="number"
           />
         </div>

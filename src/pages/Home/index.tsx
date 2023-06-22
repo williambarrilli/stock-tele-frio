@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { iProduct } from '../../types/product';
+import { OptionsSelect, iProduct } from '../../types/product';
 import TableComponent from '../../components/Table';
 import Button from '@mui/material/Button';
 import FormNewProduct from '../../components/FormNewProduct';
@@ -47,6 +47,13 @@ export default function Home() {
     setProductSelected(undefined);
   }, [openModalNewProduct, openModalUpdateStock]);
 
+  const filterOptions: OptionsSelect[] = [
+    { label: 'Código', value: 'id' },
+    { label: 'Nome', value: 'name' },
+    { label: 'Categoria', value: 'category' },
+    { label: 'Quantidade', value: 'quantity' },
+  ];
+
   return (
     <div>
       <Header />
@@ -56,7 +63,7 @@ export default function Home() {
           placeholder="Digite o nome do produto"
           value={typeSearch}
           onChange={(e) => setTypeSearch(e)}
-          options={['Código', 'Produto']}
+          options={filterOptions}
         />
         <InputComponent
           label="Digite o nome do produto"
