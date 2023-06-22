@@ -5,6 +5,7 @@ import InputComponent from '../../components/InputComponent/index';
 import Button from '@mui/material/Button';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../init-firebase';
+import Header from '../../components/Header';
 
 export default function Login() {
   initializeApp(firebaseConfig);
@@ -36,26 +37,31 @@ export default function Login() {
       });
   };
   return (
-    <div className={styles.container}>
-      <div>
-        <InputComponent
-          type="text"
-          value={login}
-          placeholder="Digite seu login"
-          label="Login:"
-          onChange={handleChangeLogin}
-        />
-        <InputComponent
-          type="text"
-          value={password}
-          placeholder="Digite sua senha"
-          label="Senha:"
-          onChange={handleChangePassword}
-        />
+    <div>
+      <Header />
+      <div className={styles.container}>
+        <div className={styles.modalContent}>
+          <InputComponent
+            type="text"
+            value={login}
+            placeholder="Digite seu login"
+            label="Login:"
+            onChange={handleChangeLogin}
+          />
+          <InputComponent
+            type="text"
+            value={password}
+            placeholder="Digite sua senha"
+            label="Senha:"
+            onChange={handleChangePassword}
+          />
+          <div className={styles.button}>
+            <Button variant="contained" onClick={() => handleLogin()}>
+              Entrar
+            </Button>
+          </div>
+        </div>
       </div>
-      <Button variant="contained" onClick={() => handleLogin()}>
-        Adicionar Produto
-      </Button>
     </div>
   );
 }
