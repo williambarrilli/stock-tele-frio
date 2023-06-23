@@ -12,7 +12,7 @@ import {
   getProductByFilter,
   getProductsList,
 } from '../../controller/firestore';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
@@ -58,9 +58,14 @@ export default function Home() {
   }, [searchText]);
 
   useEffect(() => {
-    console.log(auth);
-    if (auth?.currentUser) navigate('/login');
-    getProducts();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(user);
+        getProducts();
+      } else {
+        navigate('/');
+      }
+    });
   }, [auth, navigate]);
 
   useEffect(() => {

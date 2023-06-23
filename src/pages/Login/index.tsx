@@ -44,11 +44,11 @@ export default function Login() {
             type="text"
             value={login}
             placeholder="Digite seu login"
-            label="Login:"
+            label="Email:"
             onChange={handleChangeLogin}
           />
           <InputComponent
-            type="text"
+            type="password"
             value={password}
             placeholder="Digite sua senha"
             label="Senha:"
