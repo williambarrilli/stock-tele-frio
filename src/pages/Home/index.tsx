@@ -95,7 +95,6 @@ export default function Home() {
           onChange={(e) => setSearchText(e)}
           type="text"
         />
-
         <Button variant="contained" onClick={() => filterList()}>
           Filtrar
         </Button>
