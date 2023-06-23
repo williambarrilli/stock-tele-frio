@@ -23,24 +23,23 @@ export default function TableComponent({
           </tr>
         </thead>
         <tbody>
-          {lista.length &&
-            lista?.map((product, index) => (
-              <tr
-                key={index}
-                style={{ borderBottom: 'none' }}
-                className={styles.tr}
-                onClick={() => onClickItem(product)}
-              >
-                <td className={styles.tableCell}>{product.id}</td>
-                <td className={styles.tableCell}>{product.name}</td>
-                <td className={styles.tableCell}>{product.brand}</td>
-                <td className={styles.tableCell}>{product.category}</td>
-                <td className={styles.tableCell}>{product.quantity}</td>
-                <td className={styles.tableCell}>
-                  {formattedValue(product.sellPrice)}
-                </td>
-              </tr>
-            ))}
+          {lista?.map((product, index) => (
+            <tr
+              key={index}
+              style={{ borderBottom: 'none' }}
+              className={styles.tr}
+              onClick={() => onClickItem(product)}
+            >
+              <td className={styles.tableCell}>{product.id}</td>
+              <td className={styles.tableCell}>{product.name}</td>
+              <td className={styles.tableCell}>{product.brand}</td>
+              <td className={styles.tableCell}>{product.category}</td>
+              <td className={styles.tableCell}>{product.quantity}</td>
+              <td className={styles.tableCell}>
+                {formattedValue(product.sellPrice)}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

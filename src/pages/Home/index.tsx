@@ -12,22 +12,29 @@ import {
   getProductByFilter,
   getProductsList,
 } from '../../controller/firestore';
+import { getAuth } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+  const auth = getAuth();
+  const navigate = useNavigate();
+
   const [openModalNewProduct, setOpenModalNewProduct] = useState(false);
   const [openModalProductsAlert, setOpenModalProductsAlert] = useState(false);
 
-  const [typeSearch, setTypeSearch] = useState('');
+  const [typeSearch, setTypeSearch] = useState('id');
   const [searchText, setSearchText] = useState('');
 
   const [listProducts, setListProducts] = useState<iProduct[]>([]);
   const [filtredListProducts, setFiltredListProducts] = useState<iProduct[]>(
     [],
   );
+  const [listProductsAlert, setListProductsAlert] = useState<iProduct[]>([]);
 
   const [productSelected, setProductSelected] = useState<iProduct>();
 
   const filterList = async () => {
+    console.log(typeSearch);
     const list = await getProductByFilter(typeSearch, searchText);
     setFiltredListProducts(list);
   };
@@ -37,17 +44,29 @@ export default function Home() {
     setListProducts(list);
   };
 
-  // useEffect(() => {
-  //   getProductsAlerts();
-  // }, []);
+  const getProductsAlerts = async () => {
+    const list = await getProductByFilter('alert', '');
+    setListProductsAlert(list);
+  };
+
+  useEffect(() => {
+    if (openModalProductsAlert) getProductsAlerts();
+  }, [openModalProductsAlert]);
 
   useEffect(() => {
     setFiltredListProducts([]);
   }, [searchText]);
 
   useEffect(() => {
+    console.log(auth);
+    if (auth?.currentUser) navigate('/login');
     getProducts();
+  }, [auth, navigate]);
+
+  useEffect(() => {
+    // getProducts(); TODO descomentar após registro de produtos
     setProductSelected(undefined);
+    setListProductsAlert([]);
   }, [openModalNewProduct, openModalProductsAlert]);
 
   const filterOptions: OptionsSelect[] = [
@@ -64,7 +83,9 @@ export default function Home() {
         <SelectComponent
           label="Selecione o tipo de filtro"
           placeholder="Digite o nome do produto"
-          value={typeSearch}
+          value={
+            filterOptions.find((item) => item.value === typeSearch)?.value || ''
+          }
           onChange={(e) => setTypeSearch(e)}
           options={filterOptions}
         />
@@ -91,11 +112,7 @@ export default function Home() {
       </div>
 
       <TableComponent
-        lista={
-          searchText && filtredListProducts.length
-            ? filtredListProducts
-            : listProducts
-        }
+        lista={searchText ? filtredListProducts : listProducts}
         onClickItem={(product) => {
           setOpenModalNewProduct(true);
           setProductSelected(product);
@@ -110,13 +127,13 @@ export default function Home() {
       </ModalComponent>
 
       <ModalComponent isOpen={openModalProductsAlert}>
-        {/* <TableComponent
+        <TableComponent
           lista={listProductsAlert}
           onClickItem={(product) => {
             setOpenModalNewProduct(true);
             setProductSelected(product);
           }}
-        /> */}
+        />
         <Button
           onClick={() => setOpenModalProductsAlert(false)}
           style={{ fontWeight: 550 }}

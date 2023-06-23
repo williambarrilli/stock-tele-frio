@@ -5,9 +5,12 @@ import InputComponent from '../../components/InputComponent/index';
 import Button from '@mui/material/Button';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../init-firebase';
+import { useNavigate } from 'react-router-dom';
+import { setSessionStorage } from '../../utils/sessionStorage';
 
 export default function Login() {
   initializeApp(firebaseConfig);
+  const navigate = useNavigate();
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
@@ -24,15 +27,11 @@ export default function Login() {
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, login, password)
       .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        // ...
+        setSessionStorage('user', userCredential);
+        navigate('/home');
       })
       .catch((error) => {
         console.log(error);
-        const errorCode = error.code;
-        const errorMessage = error.message;
       });
   };
   return (

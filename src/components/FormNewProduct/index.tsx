@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import { OptionsSelect, iProduct } from '../../types/product';
 import { useEffect, useMemo, useState } from 'react';
 import { profitPercentage, currencyToInteger } from '../../utils/formatters';
-import { createProduct } from '../../controller/firestore';
+import { createProduct, updateProduct } from '../../controller/firestore';
 
 export default function FormNewProduct({
   onClose,
@@ -19,7 +19,7 @@ export default function FormNewProduct({
   const [productForm, setProductForm] = useState<iProduct>({
     id: newId,
     name: '',
-    category: 'Maquina de lavar',
+    category: 'Refrigeração',
     brand: '',
     location: '',
     buyPrice: 0,
@@ -27,6 +27,7 @@ export default function FormNewProduct({
     salesMargin: 0,
     quantity: 0,
     alertQuantity: 0,
+    activeAlertQuantity: false,
     unitMeasurement: 'Unidade',
   });
 
@@ -46,7 +47,7 @@ export default function FormNewProduct({
     { label: 'Outros', value: 'Outros' },
   ];
 
-  const handleChange = (name: string, value: string | number) => {
+  const handleChange = (name: string, value: string | number | boolean) => {
     if ((value && name === 'buyPrice') || name === 'sellPrice') {
       value = currencyToInteger(value as string);
     }
@@ -56,12 +57,15 @@ export default function FormNewProduct({
     }));
   };
 
+  useEffect(() => {
+    if (productForm.alertQuantity >= productForm.quantity)
+      handleChange('activeAlertQuantity', true);
+    else handleChange('activeAlertQuantity', false);
+  }, [productForm.quantity, productForm.alertQuantity]);
+
   const handleSave = () => {
-    if (productForm._id) createProduct(productForm);
-    else createProduct(productForm);
-    setTimeout(() => {
-      onClose();
-    }, 700);
+    if (productForm._id) updateProduct(productForm).then(() => onClose());
+    else createProduct(productForm).then(() => onClose());
   };
 
   const salesMargin = useMemo(() => {
@@ -165,7 +169,7 @@ export default function FormNewProduct({
             label="Estoque atual"
             value={productForm.quantity}
             placeholder="Digite a qtd em estoque"
-            onChange={(e) => handleChange('quantity', e)}
+            onChange={(e) => handleChange('quantity', Number(e))}
             type="number"
           />
         </div>
@@ -174,7 +178,7 @@ export default function FormNewProduct({
             label="aviso de estoque minimo"
             placeholder="Digite a qtd para ser avisado"
             value={productForm.alertQuantity}
-            onChange={(e) => handleChange('alertQuantity', e)}
+            onChange={(e) => handleChange('alertQuantity', Number(e))}
             type="number"
           />
         </div>

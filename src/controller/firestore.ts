@@ -10,6 +10,7 @@ import {
   updateDoc,
   getDoc,
   doc,
+  setDoc,
 } from 'firebase/firestore';
 import { firebaseConfig } from '../init-firebase';
 import { iProduct } from '../types/product';
@@ -41,8 +42,9 @@ export const getProductByFilter = async (
   let searchQuery;
 
   const productsRef = collection(db, 'products');
-
-  if (type === 'id') {
+  if (type === 'alert') {
+    searchQuery = query(productsRef, where('activeAlertQuantity', '==', true));
+  } else if (type === 'id') {
     searchQuery = query(productsRef, where(type, '==', Number(search)));
   } else {
     searchQuery = query(
@@ -51,7 +53,7 @@ export const getProductByFilter = async (
       where(type, '<=', search + '\uf8ff'),
     );
   }
-
+  console.log(searchQuery);
   const querySnapshot = await getDocs(searchQuery);
 
   querySnapshot.forEach((doc) => {
@@ -72,13 +74,9 @@ export const createProduct = async (product: iProduct) => {
 
 export const updateProduct = async (product: iProduct) => {
   try {
-    const documentRef = doc(db, 'shops', product._id || '');
-    const docSnapshot = await getDoc(documentRef);
-    if (docSnapshot.exists()) {
-      const documentData = docSnapshot.data();
-      await updateDoc(documentRef, { ...documentData, product });
-    } else {
-      console.log('Document not found');
+    if (product._id) {
+      const documentRef = doc(db, 'products', product._id);
+      return await setDoc(documentRef, product, { merge: true });
     }
   } catch (error) {
     console.log('Error update document:', error);
