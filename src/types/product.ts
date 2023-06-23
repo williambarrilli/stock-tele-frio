@@ -24,6 +24,7 @@ export interface iProduct {
   salesMargin: number;
   quantity: number;
   alertQuantity: number;
+  activeAlertQuantity: boolean;
   unitMeasurement: string;
 }
 

@@ -5,19 +5,21 @@ import Button from '@mui/material/Button';
 import { OptionsSelect, iProduct } from '../../types/product';
 import { useEffect, useMemo, useState } from 'react';
 import { profitPercentage, currencyToInteger } from '../../utils/formatters';
-import { createProduct } from '../../controller/firestore';
+import { createProduct, updateProduct } from '../../controller/firestore';
 
 export default function FormNewProduct({
   onClose,
   productSelected,
+  newId,
 }: {
   onClose: () => void;
   productSelected?: iProduct;
+  newId: number;
 }) {
   const [productForm, setProductForm] = useState<iProduct>({
-    id: '0',
+    id: newId,
     name: '',
-    category: 'Maquina de lavar',
+    category: 'Refrigeração',
     brand: '',
     location: '',
     buyPrice: 0,
@@ -25,6 +27,7 @@ export default function FormNewProduct({
     salesMargin: 0,
     quantity: 0,
     alertQuantity: 0,
+    activeAlertQuantity: false,
     unitMeasurement: 'Unidade',
   });
 
@@ -44,7 +47,7 @@ export default function FormNewProduct({
     { label: 'Outros', value: 'Outros' },
   ];
 
-  const handleChange = (name: string, value: string | number) => {
+  const handleChange = (name: string, value: string | number | boolean) => {
     if ((value && name === 'buyPrice') || name === 'sellPrice') {
       value = currencyToInteger(value as string);
     }
@@ -54,12 +57,16 @@ export default function FormNewProduct({
     }));
   };
 
+  useEffect(() => {
+    if (productForm.alertQuantity >= productForm.quantity)
+      handleChange('activeAlertQuantity', true);
+    else handleChange('activeAlertQuantity', false);
+  }, [productForm.quantity, productForm.alertQuantity]);
+
   const handleSave = () => {
-    if (productForm._id) createProduct(productForm);
+    if (productForm._id) updateProduct(productForm);
     else createProduct(productForm);
-    setTimeout(() => {
-      onClose();
-    }, 700);
+    onClose();
   };
 
   const salesMargin = useMemo(() => {
@@ -75,18 +82,16 @@ export default function FormNewProduct({
     if (productSelected) setProductForm(productSelected);
   }, [productSelected]);
 
+  const title = useMemo(
+    () => `${productForm._id ? 'Atualização' : 'Cadastro'} de produto`,
+    [productForm],
+  );
+
   return (
     <div className={styles['container']}>
+      <h1 className={styles.text}>{title}</h1>
+
       <div className={styles['grid-container']}>
-        <div className={styles['grid-item-1']}>
-          <InputComponent
-            label="Código"
-            placeholder="Digite o codigo do produto"
-            value={productForm.id}
-            onChange={(e) => handleChange('id', e)}
-            type="number"
-          />
-        </div>
         <div className={styles['grid-item-1']}>
           <InputComponent
             label="Nome do produto"
@@ -94,6 +99,27 @@ export default function FormNewProduct({
             value={productForm.name}
             onChange={(e) => handleChange('name', e)}
             type="text"
+            data-test-id={'name-product'}
+          />
+        </div>
+        <div className={styles['grid-item-2']}>
+          <InputComponent
+            label="Código"
+            placeholder="Digite o codigo do produto"
+            value={productForm.id}
+            disabled
+            onChange={(e) => handleChange('id', e)}
+            type="number"
+          />
+        </div>
+        <div className={styles['grid-item-1']}>
+          <InputComponent
+            label="Marca"
+            placeholder="Digite a Marca do produto"
+            value={productForm.brand}
+            onChange={(e) => handleChange('brand', e)}
+            type="text"
+            data-test-id={'brand-product'}
           />
         </div>
         <div className={styles['grid-item-2']}>
@@ -105,24 +131,7 @@ export default function FormNewProduct({
             options={categories}
           />
         </div>
-        <div className={styles['grid-item-1']}>
-          <InputComponent
-            label="Marca"
-            placeholder="Digite a Marca do produto"
-            value={productForm.brand}
-            onChange={(e) => handleChange('brand', e)}
-            type="text"
-          />
-        </div>
-        <div className={styles['grid-item-2']}>
-          <InputComponent
-            label="Localização"
-            placeholder="Digite a Localização do produto"
-            value={productForm.location}
-            onChange={(e) => handleChange('location', e)}
-            type="text"
-          />
-        </div>
+
         <div className={styles['grid-item-1']}>
           <InputComponent
             label="Valor de compra"
@@ -132,16 +141,16 @@ export default function FormNewProduct({
             mask="currency"
           />
         </div>
-        <div className={styles['grid-item-1']}>
+        <div className={styles['grid-item-2']}>
           <InputComponent
-            label="Preço de venda"
+            label="Valor de venda"
             placeholder="Digite o valor de venda do produto"
             value={productForm.sellPrice}
             onChange={(e) => handleChange('sellPrice', e)}
             mask="currency"
           />
         </div>
-        <div className={styles['grid-item-2']}>
+        <div className={styles['grid-item-1']}>
           <InputComponent
             label="Margem de venda"
             value={`${salesMargin}%`}
@@ -158,13 +167,12 @@ export default function FormNewProduct({
             options={unitMeasurement}
           />
         </div>
-
         <div className={styles['grid-item-1']}>
           <InputComponent
             label="Estoque atual"
             value={productForm.quantity}
             placeholder="Digite a qtd em estoque"
-            onChange={(e) => handleChange('quantity', e)}
+            onChange={(e) => handleChange('quantity', Number(e))}
             type="number"
           />
         </div>
@@ -173,19 +181,19 @@ export default function FormNewProduct({
             label="aviso de estoque minimo"
             placeholder="Digite a qtd para ser avisado"
             value={productForm.alertQuantity}
-            onChange={(e) => handleChange('alertQuantity', e)}
+            onChange={(e) => handleChange('alertQuantity', Number(e))}
             type="number"
           />
         </div>
       </div>
-      <div className={styles['box-buttons']}>
+      <footer className={styles['box-buttons']}>
         <Button variant="text" onClick={() => onClose()}>
           cancelar
         </Button>
         <Button variant="contained" onClick={() => handleSave()}>
           Salvar
         </Button>
-      </div>
+      </footer>
     </div>
   );
 }

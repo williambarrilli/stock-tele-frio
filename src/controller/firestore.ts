@@ -7,9 +7,10 @@ import {
   collection,
   addDoc,
   orderBy,
-  updateDoc,
-  getDoc,
   doc,
+  setDoc,
+  limit,
+  startAt,
 } from 'firebase/firestore';
 import { firebaseConfig } from '../init-firebase';
 import { iProduct } from '../types/product';
@@ -33,6 +34,37 @@ export const getProductsList = async () => {
   return retorno as iProduct[];
 };
 
+// TODO finalizar
+export const getProductsListPaginated = async (
+  currentPage: number,
+  itemsPerPage: number = 1,
+) => {
+  const productsRef = collection(db, 'products');
+
+  const q = query(
+    productsRef,
+    orderBy('id'),
+    limit(itemsPerPage),
+    startAt(currentPage * itemsPerPage),
+  );
+
+  const querySnapshot = await getDocs(q);
+  const totalItems = querySnapshot.size;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const data: iProduct[] = [];
+
+  querySnapshot.forEach((doc) => {
+    data.push({ ...doc.data(), _id: doc.id } as iProduct);
+  });
+
+  return {
+    data,
+    itemsPerPage,
+    totalPages,
+  };
+};
+
 export const getProductByFilter = async (
   type: string,
   search: string | number,
@@ -41,8 +73,9 @@ export const getProductByFilter = async (
   let searchQuery;
 
   const productsRef = collection(db, 'products');
-
-  if (type === 'id') {
+  if (type === 'alert') {
+    searchQuery = query(productsRef, where('activeAlertQuantity', '==', true));
+  } else if (type === 'id') {
     searchQuery = query(productsRef, where(type, '==', Number(search)));
   } else {
     searchQuery = query(
@@ -51,7 +84,6 @@ export const getProductByFilter = async (
       where(type, '<=', search + '\uf8ff'),
     );
   }
-
   const querySnapshot = await getDocs(searchQuery);
 
   querySnapshot.forEach((doc) => {
@@ -72,13 +104,9 @@ export const createProduct = async (product: iProduct) => {
 
 export const updateProduct = async (product: iProduct) => {
   try {
-    const documentRef = doc(db, 'shops', product._id || '');
-    const docSnapshot = await getDoc(documentRef);
-    if (docSnapshot.exists()) {
-      const documentData = docSnapshot.data();
-      await updateDoc(documentRef, { ...documentData, product });
-    } else {
-      console.log('Document not found');
+    if (product._id) {
+      const documentRef = doc(db, 'products', product._id);
+      return await setDoc(documentRef, product, { merge: true });
     }
   } catch (error) {
     console.log('Error update document:', error);

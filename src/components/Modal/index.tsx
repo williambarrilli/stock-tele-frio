@@ -9,8 +9,11 @@ interface ModalProps {
 export default function ModalComponent({ isOpen, children }: ModalProps) {
   if (isOpen)
     return (
-      <div className={styles.overlay}>
-        <div className={styles.content}>{children}</div>;
+      <div data-testid={'modal-overlay'} className={styles.overlay}>
+        <div data-testid={'modal-content'} className={styles.content}>
+          {children}
+        </div>
+        ;
       </div>
     );
   return <></>;
