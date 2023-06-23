@@ -33,8 +33,6 @@ export default function Home() {
   const [listProductsAlert, setListProductsAlert] = useState<iProduct[]>([]);
 
   const [productSelected, setProductSelected] = useState<iProduct>();
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
 
   const filterList = async () => {
     console.log(typeSearch);
@@ -44,8 +42,6 @@ export default function Home() {
 
   const getProducts = async () => {
     const list = await getProductsList();
-    // console.log(await getProductsListPaginated(currentPage));
-
     setListProducts(list);
   };
 
@@ -125,8 +121,6 @@ export default function Home() {
           setOpenModalNewProduct(true);
           setProductSelected(product);
         }}
-        setCurrentPage={setCurrentPage}
-        totalPages={totalPages}
       />
       <ModalComponent isOpen={openModalNewProduct}>
         <FormNewProduct
@@ -143,8 +137,6 @@ export default function Home() {
             setOpenModalNewProduct(true);
             setProductSelected(product);
           }}
-          setCurrentPage={setCurrentPage}
-          totalPages={totalPages}
         />
         <Button
           onClick={() => setOpenModalProductsAlert(false)}

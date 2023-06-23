@@ -64,8 +64,9 @@ export default function FormNewProduct({
   }, [productForm.quantity, productForm.alertQuantity]);
 
   const handleSave = () => {
-    if (productForm._id) updateProduct(productForm).then(() => onClose());
-    else createProduct(productForm).then(() => onClose());
+    if (productForm._id) updateProduct(productForm);
+    else createProduct(productForm);
+    onClose();
   };
 
   const salesMargin = useMemo(() => {
@@ -98,6 +99,7 @@ export default function FormNewProduct({
             value={productForm.name}
             onChange={(e) => handleChange('name', e)}
             type="text"
+            data-test-id={'name-product'}
           />
         </div>
         <div className={styles['grid-item-2']}>
@@ -117,6 +119,7 @@ export default function FormNewProduct({
             value={productForm.brand}
             onChange={(e) => handleChange('brand', e)}
             type="text"
+            data-test-id={'brand-product'}
           />
         </div>
         <div className={styles['grid-item-2']}>

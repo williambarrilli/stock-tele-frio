@@ -34,8 +34,9 @@ export const getProductsList = async () => {
   return retorno as iProduct[];
 };
 
+// TODO finalizar
 export const getProductsListPaginated = async (
-  startOf: number,
+  currentPage: number,
   itemsPerPage: number = 1,
 ) => {
   const productsRef = collection(db, 'products');
@@ -44,7 +45,7 @@ export const getProductsListPaginated = async (
     productsRef,
     orderBy('id'),
     limit(itemsPerPage),
-    startAt(startOf),
+    startAt(currentPage * itemsPerPage),
   );
 
   const querySnapshot = await getDocs(q);
@@ -61,7 +62,6 @@ export const getProductsListPaginated = async (
     data,
     itemsPerPage,
     totalPages,
-    startOf,
   };
 };
 

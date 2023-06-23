@@ -6,13 +6,9 @@ import styles from './styles.module.scss';
 export default function TableComponent({
   lista,
   onClickItem,
-  setCurrentPage,
-  totalPages,
 }: {
   lista: iProduct[];
   onClickItem: (product: iProduct) => void;
-  setCurrentPage: (page: number) => void;
-  totalPages: number;
 }) {
   return (
     <>
