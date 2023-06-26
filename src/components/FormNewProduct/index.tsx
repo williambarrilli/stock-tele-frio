@@ -21,7 +21,6 @@ export default function FormNewProduct({
     name: '',
     category: 'Refrigeração',
     brand: '',
-    location: '',
     buyPrice: 0,
     sellPrice: 0,
     salesMargin: 0,

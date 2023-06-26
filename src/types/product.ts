@@ -18,7 +18,6 @@ export interface iProduct {
   name: string;
   category: string;
   brand: string;
-  location: string;
   buyPrice: number;
   sellPrice: number;
   salesMargin: number;
