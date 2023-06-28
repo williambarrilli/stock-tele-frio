@@ -10,14 +10,14 @@ import { createProduct, updateProduct } from '../../controller/firestore';
 export default function FormNewProduct({
   onClose,
   productSelected,
-  newId,
+  nextId,
 }: {
   onClose: () => void;
   productSelected?: iProduct;
-  newId: number;
+  nextId: number;
 }) {
   const [productForm, setProductForm] = useState<iProduct>({
-    id: newId,
+    id: nextId,
     name: '',
     category: 'Refrigeração',
     brand: '',
