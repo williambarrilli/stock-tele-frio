@@ -95,6 +95,7 @@ export const getProductByFilter = async (
 
 export const createProduct = async (product: iProduct) => {
   try {
+    await updateIdProduct(Number(product.id) + 1);
     const documentRef = collection(db, 'products');
     return await addDoc(documentRef, product);
   } catch (error) {
@@ -111,4 +112,28 @@ export const updateProduct = async (product: iProduct) => {
   } catch (error) {
     console.log('Error update document:', error);
   }
+};
+
+export const updateIdProduct = async (id: number) => {
+  try {
+    const idRef = collection(db, 'idProducts');
+    const querySnapshot = await getDocs(query(idRef));
+    if (querySnapshot.docs.length) {
+      const doc = querySnapshot.docs[0];
+      await setDoc(doc.ref, { sequence: id });
+    }
+  } catch (error) {
+    console.log('Error update document:', error);
+  }
+};
+
+export const getIdProducts = async () => {
+  let sequence = 0;
+  const idRef = collection(db, 'idProducts');
+  const querySnapshot = await getDocs(query(idRef));
+  if (querySnapshot.docs.length) {
+    const doc = querySnapshot.docs[0];
+    sequence = doc.data().sequence;
+  }
+  return sequence;
 };

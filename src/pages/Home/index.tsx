@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { OptionsSelect, iProduct } from '../../types/product';
 import TableComponent from '../../components/Table';
 import Button from '@mui/material/Button';
@@ -9,12 +9,13 @@ import Header from '../../components/Header';
 import InputComponent from '../../components/InputComponent';
 import SelectComponent from '../../components/SelectComponent';
 import {
+  getIdProducts,
   getProductByFilter,
   getProductsList,
-  getProductsListPaginated,
 } from '../../controller/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../components/loading';
 
 export default function Home() {
   const auth = getAuth();
@@ -33,16 +34,21 @@ export default function Home() {
   const [listProductsAlert, setListProductsAlert] = useState<iProduct[]>([]);
 
   const [productSelected, setProductSelected] = useState<iProduct>();
+  const [nextId, setNextId] = useState<number>(0);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const filterList = async () => {
-    console.log(typeSearch);
     const list = await getProductByFilter(typeSearch, searchText);
     setFiltredListProducts(list);
   };
 
   const getProducts = async () => {
+    setIsLoading(true);
+
     const list = await getProductsList();
     setListProducts(list);
+    setIsLoading(false);
   };
 
   const getProductsAlerts = async () => {
@@ -69,10 +75,20 @@ export default function Home() {
   }, [auth, navigate]);
 
   useEffect(() => {
-    getProducts();
-    setProductSelected(undefined);
-    setListProductsAlert([]);
+    if (!openModalNewProduct) {
+      getProducts();
+      setProductSelected(undefined);
+      setListProductsAlert([]);
+      setTimeout(() => {
+        getNextId();
+      }, 400);
+    }
   }, [openModalNewProduct, openModalProductsAlert]);
+
+  const getNextId = async () => {
+    const id = await getIdProducts();
+    setNextId(id);
+  };
 
   const filterOptions: OptionsSelect[] = [
     { label: 'Código', value: 'id' },
@@ -84,6 +100,8 @@ export default function Home() {
   return (
     <div>
       <Header />
+      {isLoading && <Loading />}
+
       <div className={styles.content}>
         <SelectComponent
           label="Selecione o tipo de filtro"
@@ -126,7 +144,7 @@ export default function Home() {
         <FormNewProduct
           onClose={() => setOpenModalNewProduct(false)}
           productSelected={productSelected}
-          newId={listProducts.length + 1}
+          nextId={nextId}
         />
       </ModalComponent>
 

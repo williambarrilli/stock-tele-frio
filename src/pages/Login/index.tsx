@@ -1,13 +1,14 @@
 import styles from './styles.module.scss';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InputComponent from '../../components/InputComponent/index';
 import Button from '@mui/material/Button';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../init-firebase';
 import { useNavigate } from 'react-router-dom';
-import { setSessionStorage } from '../../utils/sessionStorage';
+import { setLocalStorage } from '../../utils/localStorage';
 import Header from '../../components/Header';
+import Loading from '../../components/loading';
 
 export default function Login() {
   initializeApp(firebaseConfig);
@@ -15,6 +16,7 @@ export default function Login() {
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const auth = getAuth();
 
@@ -25,19 +27,29 @@ export default function Login() {
   const handleChangePassword = (value: string) => {
     setPassword(value);
   };
+
   const handleLogin = () => {
+    setIsLoading(true);
     signInWithEmailAndPassword(auth, login, password)
       .then((userCredential) => {
-        setSessionStorage('user', userCredential);
+        setLocalStorage('user', userCredential);
         navigate('/home');
       })
       .catch((error) => {
         console.log(error);
       });
+    setIsLoading(false);
   };
+
+  useEffect(() => {
+    if (auth.currentUser) navigate('/home');
+    setIsLoading(false);
+  }, [auth, navigate]);
+
   return (
     <div>
       <Header />
+      {isLoading && <Loading />}
       <div className={styles.container}>
         <div className={styles.modalContent}>
           <InputComponent
