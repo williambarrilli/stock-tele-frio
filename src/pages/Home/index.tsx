@@ -65,13 +65,7 @@ export default function Home() {
   }, [searchText]);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        getProducts();
-      } else {
-        navigate('/');
-      }
-    });
+    getProducts();
   }, [auth, navigate]);
 
   useEffect(() => {

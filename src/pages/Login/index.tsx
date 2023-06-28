@@ -16,7 +16,7 @@ export default function Login() {
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const auth = getAuth();
 
@@ -33,7 +33,7 @@ export default function Login() {
     signInWithEmailAndPassword(auth, login, password)
       .then((userCredential) => {
         setLocalStorage('user', userCredential);
-        navigate('/home');
+        navigate('/');
       })
       .catch((error) => {
         console.log(error);
@@ -42,7 +42,7 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (auth.currentUser) navigate('/home');
+    if (auth.currentUser) navigate('/');
     setIsLoading(false);
   }, [auth, navigate]);
 
