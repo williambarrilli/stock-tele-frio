@@ -1,5 +1,9 @@
 import styles from './styles.module.scss';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import InputComponent from '../../components/InputComponent/index';
 import Button from '@mui/material/Button';
@@ -42,7 +46,11 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (auth.currentUser) navigate('/');
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigate('/');
+      }
+    });
     setIsLoading(false);
   }, [auth, navigate]);
 

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import { RequireAuth } from './auth';
+import { RequireAuth } from './middleware';
 
 export default function App() {
   return (
