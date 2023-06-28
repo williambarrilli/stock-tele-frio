@@ -69,7 +69,7 @@ export default function Home() {
   }, [auth, navigate]);
 
   useEffect(() => {
-    // getProducts(); TODO descomentar após registro de produtos
+    getProducts();
     setProductSelected(undefined);
     setListProductsAlert([]);
   }, [openModalNewProduct, openModalProductsAlert]);
@@ -126,7 +126,7 @@ export default function Home() {
         <FormNewProduct
           onClose={() => setOpenModalNewProduct(false)}
           productSelected={productSelected}
-          newId={listProducts.length}
+          newId={listProducts.length + 1}
         />
       </ModalComponent>
 
