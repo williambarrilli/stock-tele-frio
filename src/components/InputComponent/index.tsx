@@ -41,6 +41,7 @@ export default function InputComponent({
             [styles.disabled]: disabled,
           })}`}
           disabled={disabled}
+          value={value}
         />
       ) : (
         <input

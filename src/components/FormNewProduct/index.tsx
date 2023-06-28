@@ -47,9 +47,6 @@ export default function FormNewProduct({
   ];
 
   const handleChange = (name: string, value: string | number | boolean) => {
-    if ((value && name === 'buyPrice') || name === 'sellPrice') {
-      value = currencyToInteger(value as string);
-    }
     setProductForm((prevState) => ({
       ...prevState,
       [name]: value,
@@ -69,10 +66,17 @@ export default function FormNewProduct({
   };
 
   const salesMargin = useMemo(() => {
-    const margin = profitPercentage(
-      productForm.buyPrice,
-      productForm.sellPrice,
-    );
+    const buyPrice =
+      typeof productForm.buyPrice === 'string'
+        ? currencyToInteger(productForm.buyPrice)
+        : productForm.buyPrice;
+    const sellPrice =
+      typeof productForm.sellPrice === 'string'
+        ? currencyToInteger(productForm.sellPrice)
+        : productForm.sellPrice;
+
+    const margin = profitPercentage(buyPrice, sellPrice);
+
     handleChange('saleMargin', margin);
     return margin;
   }, [productForm.buyPrice, productForm.sellPrice]);

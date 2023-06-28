@@ -13,7 +13,7 @@ import {
   getProductByFilter,
   getProductsList,
 } from '../../controller/firestore';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../components/loading';
 
@@ -44,8 +44,6 @@ export default function Home() {
   };
 
   const getProducts = async () => {
-    setIsLoading(true);
-
     const list = await getProductsList();
     setListProducts(list);
     setIsLoading(false);
@@ -70,12 +68,14 @@ export default function Home() {
 
   useEffect(() => {
     if (!openModalNewProduct) {
-      getProducts();
+      setIsLoading(true);
+
       setProductSelected(undefined);
       setListProductsAlert([]);
       setTimeout(() => {
+        getProducts();
         getNextId();
-      }, 400);
+      }, 700);
     }
   }, [openModalNewProduct, openModalProductsAlert]);
 

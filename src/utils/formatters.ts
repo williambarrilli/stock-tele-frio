@@ -16,7 +16,7 @@ export const profitPercentage = (
 };
 
 export const currencyToInteger = (value: string) => {
-  if (!value) return 'R$0,00';
+  if (!value) return 0;
   const formatted = value
     .replace(/[a-z]|\$/gi, '')
     .replace(/\./gi, '')

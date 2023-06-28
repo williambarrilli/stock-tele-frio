@@ -11,27 +11,33 @@ import {
   setDoc,
   limit,
   startAt,
+  QuerySnapshot,
 } from 'firebase/firestore';
 import { firebaseConfig } from '../init-firebase';
 import { iProduct } from '../types/product';
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export const getProductsList = async () => {
-  const retorno: any[] = [];
+const getCollection = (nameCollection: string) => {
+  return collection(db, nameCollection);
+};
 
-  const productsRef = collection(db, 'products');
+const productsRef = getCollection('products');
 
-  const q = query(productsRef, orderBy('id'));
-
-  const querySnapshot = await getDocs(q);
+const getDocsSnapshot = (querySnapshot: QuerySnapshot) => {
+  const list: any[] = [];
   querySnapshot.forEach((doc) => {
-    retorno.push({ ...doc.data(), _id: doc.id });
+    list.push({ ...doc.data(), _id: doc.id });
   });
+  return list;
+};
 
-  return retorno as iProduct[];
+export const getProductsList = async () => {
+  const searchQuery = query(productsRef, orderBy('id'));
+  const querySnapshot = await getDocs(searchQuery);
+  const retorno: iProduct[] = getDocsSnapshot(querySnapshot);
+  return retorno;
 };
 
 // TODO finalizar
@@ -39,8 +45,6 @@ export const getProductsListPaginated = async (
   currentPage: number,
   itemsPerPage: number = 1,
 ) => {
-  const productsRef = collection(db, 'products');
-
   const q = query(
     productsRef,
     orderBy('id'),
@@ -52,11 +56,7 @@ export const getProductsListPaginated = async (
   const totalItems = querySnapshot.size;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const data: iProduct[] = [];
-
-  querySnapshot.forEach((doc) => {
-    data.push({ ...doc.data(), _id: doc.id } as iProduct);
-  });
+  const data: iProduct[] = getDocsSnapshot(querySnapshot);
 
   return {
     data,
@@ -69,10 +69,7 @@ export const getProductByFilter = async (
   type: string,
   search: string | number,
 ) => {
-  const retorno: any[] = [];
   let searchQuery;
-
-  const productsRef = collection(db, 'products');
   if (type === 'alert') {
     searchQuery = query(productsRef, where('activeAlertQuantity', '==', true));
   } else if (type === 'id') {
@@ -86,18 +83,15 @@ export const getProductByFilter = async (
   }
   const querySnapshot = await getDocs(searchQuery);
 
-  querySnapshot.forEach((doc) => {
-    if (doc.data()) retorno.push(doc.data());
-  });
+  const retorno: iProduct[] = getDocsSnapshot(querySnapshot);
 
-  return retorno as iProduct[];
+  return retorno;
 };
 
 export const createProduct = async (product: iProduct) => {
   try {
     await updateIdProduct(Number(product.id) + 1);
-    const documentRef = collection(db, 'products');
-    return await addDoc(documentRef, product);
+    return await addDoc(productsRef, product);
   } catch (error) {
     console.log('Error add document:', error);
   }
@@ -116,7 +110,7 @@ export const updateProduct = async (product: iProduct) => {
 
 export const updateIdProduct = async (id: number) => {
   try {
-    const idRef = collection(db, 'idProducts');
+    const idRef = getCollection('idProducts');
     const querySnapshot = await getDocs(query(idRef));
     if (querySnapshot.docs.length) {
       const doc = querySnapshot.docs[0];
@@ -129,7 +123,7 @@ export const updateIdProduct = async (id: number) => {
 
 export const getIdProducts = async () => {
   let sequence = 0;
-  const idRef = collection(db, 'idProducts');
+  const idRef = getCollection('idProducts');
   const querySnapshot = await getDocs(query(idRef));
   if (querySnapshot.docs.length) {
     const doc = querySnapshot.docs[0];
