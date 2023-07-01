@@ -38,7 +38,7 @@ export default function TableComponent({
                 <td className={styles.tableCell}>{product.category}</td>
                 <td className={styles.tableCell}>{product.quantity}</td>
                 <td className={styles.tableCell}>
-                  {formattedValue(product.sellPrice)}
+                  {formattedValue(Number(product.sellPrice))}
                 </td>
               </tr>
             ))}

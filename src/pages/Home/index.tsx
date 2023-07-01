@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { OptionsSelect, iProduct } from '../../types/product';
 import TableComponent from '../../components/Table';
 import Button from '@mui/material/Button';
@@ -9,7 +9,6 @@ import Header from '../../components/Header';
 import InputComponent from '../../components/InputComponent';
 import SelectComponent from '../../components/SelectComponent';
 import {
-  getIdProducts,
   getProductByFilter,
   getProductsList,
 } from '../../controller/firestore';
@@ -34,7 +33,6 @@ export default function Home() {
   const [listProductsAlert, setListProductsAlert] = useState<iProduct[]>([]);
 
   const [productSelected, setProductSelected] = useState<iProduct>();
-  const [nextId, setNextId] = useState<number>(0);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -74,15 +72,9 @@ export default function Home() {
       setListProductsAlert([]);
       setTimeout(() => {
         getProducts();
-        getNextId();
       }, 700);
     }
   }, [openModalNewProduct, openModalProductsAlert]);
-
-  const getNextId = async () => {
-    const id = await getIdProducts();
-    setNextId(id);
-  };
 
   const filterOptions: OptionsSelect[] = [
     { label: 'Código', value: 'id' },
@@ -138,7 +130,6 @@ export default function Home() {
         <FormNewProduct
           onClose={() => setOpenModalNewProduct(false)}
           productSelected={productSelected}
-          nextId={nextId}
         />
       </ModalComponent>
 

@@ -90,8 +90,9 @@ export const getProductByFilter = async (
 
 export const createProduct = async (product: iProduct) => {
   try {
-    await updateIdProduct(Number(product.id) + 1);
-    return await addDoc(productsRef, product);
+    const id = await getIdProducts(true);
+
+    return await addDoc(productsRef, { ...product, id });
   } catch (error) {
     console.log('Error add document:', error);
   }
@@ -121,13 +122,16 @@ export const updateIdProduct = async (id: number) => {
   }
 };
 
-export const getIdProducts = async () => {
+export const getIdProducts = async (update?: boolean) => {
   let sequence = 0;
   const idRef = getCollection('idProducts');
   const querySnapshot = await getDocs(query(idRef));
   if (querySnapshot.docs.length) {
     const doc = querySnapshot.docs[0];
-    sequence = doc.data().sequence;
+    sequence = doc.data().sequence + 1;
+    if (update) {
+      await setDoc(doc.ref, { sequence });
+    }
   }
   return sequence;
 };

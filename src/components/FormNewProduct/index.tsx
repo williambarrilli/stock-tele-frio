@@ -10,14 +10,12 @@ import { createProduct, updateProduct } from '../../controller/firestore';
 export default function FormNewProduct({
   onClose,
   productSelected,
-  nextId,
 }: {
   onClose: () => void;
   productSelected?: iProduct;
-  nextId: number;
 }) {
   const [productForm, setProductForm] = useState<iProduct>({
-    id: nextId,
+    id: '',
     name: '',
     category: 'Refrigeração',
     brand: '',
@@ -108,7 +106,6 @@ export default function FormNewProduct({
         <div className={styles['grid-item-2']}>
           <InputComponent
             label="Código"
-            placeholder="Digite o codigo do produto"
             value={productForm.id}
             disabled
             onChange={(e) => handleChange('id', e)}

@@ -1,9 +1,8 @@
-export const formattedValue = (value: number) => {
-  return value?.toLocaleString('pt-BR', {
+export const formattedValue = (value: number) =>
+  value?.toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',
   });
-};
 
 export const profitPercentage = (
   purchasePrice: number,
