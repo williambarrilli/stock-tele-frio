@@ -62,17 +62,12 @@ export default function Home() {
 
   useEffect(() => {
     getProducts();
-  }, [auth, navigate]);
+  }, [navigate]);
 
   useEffect(() => {
     if (!openModalNewProduct) {
       setIsLoading(true);
-
       setProductSelected(undefined);
-      setListProductsAlert([]);
-      setTimeout(() => {
-        getProducts();
-      }, 700);
     }
   }, [openModalNewProduct, openModalProductsAlert]);
 
@@ -128,7 +123,12 @@ export default function Home() {
       />
       <ModalComponent isOpen={openModalNewProduct}>
         <FormNewProduct
-          onClose={() => setOpenModalNewProduct(false)}
+          onClose={() => {
+            setOpenModalNewProduct(false);
+            setTimeout(() => {
+              getProducts();
+            }, 700);
+          }}
           productSelected={productSelected}
         />
       </ModalComponent>
@@ -145,7 +145,10 @@ export default function Home() {
         </section>
         <section className={styles.footer}>
           <Button
-            onClick={() => setOpenModalProductsAlert(false)}
+            onClick={() => {
+              setOpenModalProductsAlert(false);
+              setListProductsAlert([]);
+            }}
             style={{ fontWeight: 550 }}
             color="error"
           >
