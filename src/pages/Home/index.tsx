@@ -50,6 +50,7 @@ export default function Home() {
   const getProductsAlerts = async () => {
     const list = await getProductByFilter('alert', '');
     setListProductsAlert(list);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -63,13 +64,6 @@ export default function Home() {
   useEffect(() => {
     getProducts();
   }, [navigate]);
-
-  useEffect(() => {
-    if (!openModalNewProduct) {
-      setIsLoading(true);
-      setProductSelected(undefined);
-    }
-  }, [openModalNewProduct, openModalProductsAlert]);
 
   const filterOptions: OptionsSelect[] = [
     { label: 'Código', value: 'id' },
@@ -106,7 +100,10 @@ export default function Home() {
           Adicionar Produto
         </Button>
         <Button
-          onClick={() => setOpenModalProductsAlert(true)}
+          onClick={() => {
+            setIsLoading(true);
+            setOpenModalProductsAlert(true);
+          }}
           style={{ fontWeight: 550 }}
           color="error"
         >
@@ -124,6 +121,8 @@ export default function Home() {
       <ModalComponent isOpen={openModalNewProduct}>
         <FormNewProduct
           onClose={() => {
+            setIsLoading(true);
+            setProductSelected(undefined);
             setOpenModalNewProduct(false);
             setTimeout(() => {
               getProducts();
