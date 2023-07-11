@@ -134,20 +134,24 @@ export default function Home() {
       </ModalComponent>
 
       <ModalComponent isOpen={openModalProductsAlert}>
-        <TableComponent
-          lista={listProductsAlert}
-          onClickItem={(product) => {
-            setOpenModalNewProduct(true);
-            setProductSelected(product);
-          }}
-        />
-        <Button
-          onClick={() => setOpenModalProductsAlert(false)}
-          style={{ fontWeight: 550 }}
-          color="error"
-        >
-          Fechar
-        </Button>
+        <section className={styles['modal-overflow']}>
+          <TableComponent
+            lista={listProductsAlert}
+            onClickItem={(product) => {
+              setOpenModalNewProduct(true);
+              setProductSelected(product);
+            }}
+          />
+        </section>
+        <section className={styles.footer}>
+          <Button
+            onClick={() => setOpenModalProductsAlert(false)}
+            style={{ fontWeight: 550 }}
+            color="error"
+          >
+            Fechar
+          </Button>
+        </section>
       </ModalComponent>
     </div>
   );
