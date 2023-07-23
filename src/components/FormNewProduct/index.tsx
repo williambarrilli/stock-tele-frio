@@ -75,7 +75,7 @@ export default function FormNewProduct({
 
     const margin = profitPercentage(buyPrice, sellPrice);
 
-    handleChange('saleMargin', margin);
+    handleChange('salesMargin', margin);
     return margin;
   }, [productForm.buyPrice, productForm.sellPrice]);
 
@@ -153,7 +153,7 @@ export default function FormNewProduct({
         <div className={styles['grid-item-1']}>
           <InputComponent
             label="Margem de venda"
-            value={`${salesMargin}%`}
+            value={`${salesMargin.includes('Infinity') ? 0 : salesMargin}%`}
             onChange={(e) => handleChange('salesMargin', e)}
             disabled
           />

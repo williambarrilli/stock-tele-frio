@@ -12,12 +12,10 @@ import {
   getProductByFilter,
   getProductsList,
 } from '../../controller/firestore';
-import { getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../components/loading';
 
 export default function Home() {
-  const auth = getAuth();
   const navigate = useNavigate();
 
   const [openModalNewProduct, setOpenModalNewProduct] = useState(false);
@@ -50,6 +48,7 @@ export default function Home() {
   const getProductsAlerts = async () => {
     const list = await getProductByFilter('alert', '');
     setListProductsAlert(list);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -62,19 +61,7 @@ export default function Home() {
 
   useEffect(() => {
     getProducts();
-  }, [auth, navigate]);
-
-  useEffect(() => {
-    if (!openModalNewProduct) {
-      setIsLoading(true);
-
-      setProductSelected(undefined);
-      setListProductsAlert([]);
-      setTimeout(() => {
-        getProducts();
-      }, 700);
-    }
-  }, [openModalNewProduct, openModalProductsAlert]);
+  }, [navigate]);
 
   const filterOptions: OptionsSelect[] = [
     { label: 'Código', value: 'id' },
@@ -111,7 +98,10 @@ export default function Home() {
           Adicionar Produto
         </Button>
         <Button
-          onClick={() => setOpenModalProductsAlert(true)}
+          onClick={() => {
+            setIsLoading(true);
+            setOpenModalProductsAlert(true);
+          }}
           style={{ fontWeight: 550 }}
           color="error"
         >
@@ -128,26 +118,40 @@ export default function Home() {
       />
       <ModalComponent isOpen={openModalNewProduct}>
         <FormNewProduct
-          onClose={() => setOpenModalNewProduct(false)}
+          onClose={() => {
+            setIsLoading(true);
+            setProductSelected(undefined);
+            setOpenModalNewProduct(false);
+            setTimeout(() => {
+              getProducts();
+            }, 700);
+          }}
           productSelected={productSelected}
         />
       </ModalComponent>
 
       <ModalComponent isOpen={openModalProductsAlert}>
-        <TableComponent
-          lista={listProductsAlert}
-          onClickItem={(product) => {
-            setOpenModalNewProduct(true);
-            setProductSelected(product);
-          }}
-        />
-        <Button
-          onClick={() => setOpenModalProductsAlert(false)}
-          style={{ fontWeight: 550 }}
-          color="error"
-        >
-          Fechar
-        </Button>
+        <section className={styles['modal-overflow']}>
+          <TableComponent
+            lista={listProductsAlert}
+            onClickItem={(product) => {
+              setOpenModalNewProduct(true);
+              setProductSelected(product);
+            }}
+          />
+        </section>
+        <section className={styles.footer}>
+          <Button
+            onClick={() => {
+              setOpenModalProductsAlert(false);
+              setListProductsAlert([]);
+            }}
+            style={{ fontWeight: 550 }}
+            color="error"
+          >
+            Fechar
+          </Button>
+        </section>
       </ModalComponent>
     </div>
   );
