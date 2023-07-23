@@ -12,12 +12,10 @@ import {
   getProductByFilter,
   getProductsList,
 } from '../../controller/firestore';
-import { getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../components/loading';
 
 export default function Home() {
-  const auth = getAuth();
   const navigate = useNavigate();
 
   const [openModalNewProduct, setOpenModalNewProduct] = useState(false);

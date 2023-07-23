@@ -75,7 +75,7 @@ export default function FormNewProduct({
 
     const margin = profitPercentage(buyPrice, sellPrice);
 
-    handleChange('saleMargin', margin);
+    handleChange('salesMargin', margin);
     return margin;
   }, [productForm.buyPrice, productForm.sellPrice]);
 
