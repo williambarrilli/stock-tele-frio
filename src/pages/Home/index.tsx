@@ -119,6 +119,10 @@ export default function Home() {
       <ModalComponent isOpen={openModalNewProduct}>
         <FormNewProduct
           onClose={() => {
+            setOpenModalNewProduct(false);
+            setProductSelected(undefined);
+          }}
+          onSave={() => {
             setIsLoading(true);
             setProductSelected(undefined);
             setOpenModalNewProduct(false);

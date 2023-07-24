@@ -9,9 +9,11 @@ import { createProduct, updateProduct } from '../../controller/firestore';
 
 export default function FormNewProduct({
   onClose,
+  onSave,
   productSelected,
 }: {
   onClose: () => void;
+  onSave: () => void;
   productSelected?: iProduct;
 }) {
   const [productForm, setProductForm] = useState<iProduct>({
@@ -60,7 +62,7 @@ export default function FormNewProduct({
   const handleSave = () => {
     if (productForm._id) updateProduct(productForm);
     else createProduct(productForm);
-    onClose();
+    onSave();
   };
 
   const salesMargin = useMemo(() => {
