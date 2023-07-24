@@ -17,7 +17,7 @@ export const exporProductstToExcel = (data: iProduct[]) => {
 
     quantidade: product.quantity.toString(),
     'alerta de quantidade': product.alertQuantity.toString(),
-    'unidade de medida': product,
+    'unidade de medida': product.unitMeasurement,
   }));
 
   const worksheet = XLSX.utils.json_to_sheet(formattedData);
